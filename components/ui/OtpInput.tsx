@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
-import React from 'react';
-import { Flex, Input, Typography } from 'antd';
-import type { GetProps } from 'antd';
+import React from "react";
+import { Flex, Input, Typography } from "antd";
+import type { GetProps } from "antd";
 
 type OTPProps = GetProps<typeof Input.OTP>;
 
 const { Title } = Typography;
 
 const OtpInput: React.FC = () => {
-  const onChange: OTPProps['onChange'] = (text) => {
-    console.log('onChange:', text);
+  const onChange: OTPProps["onChange"] = (text) => {
+    console.log("onChange:", text);
   };
 
   const sharedProps: OTPProps = {

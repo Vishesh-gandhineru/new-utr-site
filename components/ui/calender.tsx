@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import React from 'react';
-import { Calendar, theme } from 'antd';
-import type { CalendarProps } from 'antd';
-import type { Dayjs } from 'dayjs';
+import React from "react";
+import { Calendar, theme } from "antd";
+import type { CalendarProps } from "antd";
+import type { Dayjs } from "dayjs";
 
-const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>['mode']) => {
-  console.log(value.format('YYYY-MM-DD'), mode);
+const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>["mode"]) => {
+  console.log(value.format("YYYY-MM-DD"), mode);
 };
 
 const Calender: React.FC = () => {
