@@ -19,14 +19,13 @@ const AddGuest = () => {
       console.log("pets");
     }
   };
-  const handleDecrement = () => {};
+  const handleDecrement = (id:string) => {};
+
  const addonAfter = (id : string) => (
-    <button
-    className="h-full w-full"
-    onClick={() => handleIncrement(id)}
-  >
-    +
-  </button>
+    <button className="h-full w-full" onClick={() => handleIncrement(id)}>+</button>
+ )
+ const addonBefore = (id : string) => (
+    <button className="h-full w-full" onClick={() => handleDecrement(id)}>-</button>
  )
   const content = () => {
     return (
@@ -44,7 +43,7 @@ const AddGuest = () => {
             addonAfter={
                 addonAfter("adults")
             }
-            addonBefore={<button className="h-full w-full" onClick={handleDecrement}>-</button>}
+            addonBefore={addonBefore("adults")}
           />
         </div>
         <div className="flex items-center justify-between space-x-8">
@@ -56,10 +55,10 @@ const AddGuest = () => {
             className="max-w-[120px] !rounded-none !border-0 !border-b-[1px] !text-center"
             min={1}
             onChange={handleAddGuest}
-            addonAfter={
-              <button className="h-full w-full" onClick={() => handleIncrement("children")}>+</button>
+             addonAfter={
+                addonAfter("children")
             }
-            addonBefore={<button  className="h-full w-full" onClick={handleDecrement}>-</button>}
+            addonBefore={addonBefore("children")}
           />
         </div>
         <div className="flex items-center justify-between space-x-8">
@@ -72,9 +71,9 @@ const AddGuest = () => {
             min={1}
             onChange={handleAddGuest}
             addonAfter={
-              <button className="h-full w-full" onClick={() => handleIncrement("pets")}>+</button>
+                addonAfter("pets")
             }
-            addonBefore={<button className="h-full w-full" onClick={handleDecrement}>-</button>}
+            addonBefore={addonBefore("pets")}
           />
         </div>
       </div>
