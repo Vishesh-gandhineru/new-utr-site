@@ -1,7 +1,7 @@
 "use client";
 
 import React, { SetStateAction, useState } from "react";
-import { Button, Popover, Input } from "antd";
+import { Popover, Input } from "antd";
 import {
   Command,
   CommandEmpty,
@@ -16,10 +16,8 @@ import { CountryCode } from "@/utils/countryCodeWithImage";
 const PhoneInput: React.FC = () => {
   const [open, setOpen] = useState<SetStateAction<boolean>>(false);
   const [value, setValue] = useState<SetStateAction<string | undefined>>("+91");
-  const [countryCode, setCountryCode] =
-    useState<SetStateAction<string | undefined>>("+91");
+  const [countryCode, setCountryCode] = useState<SetStateAction<string | undefined>>("+91");
 
-  console.log("countryCode", countryCode);
 
   const frameworks = CountryCode;
 
@@ -61,16 +59,15 @@ const PhoneInput: React.FC = () => {
   return (
     <div className="flex max-w-[300px]">
       <Popover content={content} trigger="click">
-        <Button className="bg-white border-2 border-black" type="primary">
+        <button className="bg-white border-[1px] rounded-none border-[#d9d9d9] border-r-0 rounded-l-[5px]  px-3">
           {" "}
           {value
             ? frameworks.find((framework) => framework.dial_code === value)
                 ?.emoji
             : "🌍"}
-        </Button>
+        </button>
       </Popover>
-      <Input placeholder="Phone Number" type="number" maxLength={10} />
-    
+      <Input placeholder="Phone Number" type="number" maxLength={10} className=" !rounded-none !rounded-r-[5px]" />
     </div>
   );
 };

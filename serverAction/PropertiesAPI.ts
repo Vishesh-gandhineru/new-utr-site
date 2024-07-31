@@ -22,9 +22,9 @@ export const getSinglePropertyBySlug = async (slug: string) => {
   }
 };
 
-export const getPropertiesByFilter = async (params: object) => {
+export const getPropertiesByLocation = async (params: string) => {
   try {
-    const response = await post("/property/search", params);
+    const response = await get(`/property/search/${params}`);
     return response.data;
   } catch (error) {
     console.error(error);
