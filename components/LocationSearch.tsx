@@ -6,6 +6,7 @@ import type { SelectProps } from "antd";
 import debounce from "lodash/debounce";
 import { locations } from "@/utils/DefaultLocation";
 import { getPropertiesByLocation } from "@/serverAction/PropertiesAPI";
+import { Search } from "lucide-react";
 
 export interface DebounceSelectProps<ValueType = any>
   extends Omit<SelectProps<ValueType | ValueType[]>, "options" | "children"> {
@@ -58,6 +59,8 @@ function DebounceSelect<
   return (
     <Select
     showSearch
+    removeIcon
+    suffixIcon={<Search className="w-4 h-4" />}
       labelInValue
       filterOption={false}
       onSearch={debounceFetcher}
@@ -100,7 +103,6 @@ async function fetchLocationList(Location: string): Promise<LocationValue[]> {
     }));
   }
   const GetLocation = await getPropertiesByLocation(Location);
-  console.log(GetLocation);
   return GetLocation.map((location: any) => ({
     key: location.propertyId,
     label: location.general.city,

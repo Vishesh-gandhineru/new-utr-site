@@ -1,26 +1,18 @@
-import {
-  getProperties,
-  getPropertyPolicies,
-  getSinglePropertyBySlug,
-} from "@/serverAction/PropertiesAPI";
-import DataRangePicker from "@/components/ui/DatePicker";
-import Image from "next/image";
+
 import Calender from "@/components/ui/calender";
-import PhoneInput from "@/components/PhoneInput";
-import LocationSearch from "@/components/LocationSearch";
-import AddGuest from "@/components/AddGuest";
+import HomeFilterBar from "@/components/Filter/HomeFilterBar";
+import LoginForm from "@/components/LoginComponents/LoginForm";
+import Header from "@/components/Header/Header";
+
 
 export default async function Home() {
- 
   return (
     <main className="container mt-8">
+      <Header />
       <section className=" space-y-4">
-        <h1>Home page</h1>
-        <DataRangePicker />
+        <HomeFilterBar />
         <Calender />
-        <PhoneInput />
-        <LocationSearch />
-        <AddGuest />
+        <LoginForm />
       </section>
     </main>
   );
