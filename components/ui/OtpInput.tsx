@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { Flex, Input, Typography } from "antd";
+import { Alert, Flex, Input, Typography } from "antd";
 import type { GetProps } from "antd";
-import { VerifyOTP } from "@/serverAction/authAPI";
+import { VerifyOTP, VerifyOTPForRegister } from "@/serverAction/authAPI";
 
 type OTPProps = GetProps<typeof Input.OTP>;
 
@@ -11,28 +11,60 @@ const { Title } = Typography;
 
 type OtpInputProps = {
   phoneNumber: string | undefined,
-  countryCode: string | undefined
+  countryCode: string | undefined,
+  loginOTP: boolean,
+  registerOTP: boolean
 };
 
-const OtpInput = ({phoneNumber , countryCode } : OtpInputProps) => {
+const  OtpInput = ({phoneNumber , countryCode, loginOTP , registerOTP } : OtpInputProps) => {
 
   const [OTPChecking , setOTPChecking] = useState<boolean>(false);
+  const [LoginSuccess , setLoginSuccess] = useState<boolean>(false);
+  const [ErrorMessage , setErrorMessage] = useState<string | undefined>('');
   const onChange: OTPProps["onChange"] = async (text) => {
-    console.log("onChange:", text);
+    setErrorMessage("")
     setOTPChecking(true);
-
-    const verifyOTP = await VerifyOTP(
-      {
-        "phone": phoneNumber,
-        "countryCode": countryCode,
-        "otp": text,
-        "role": "user"
-    })
-    if(verifyOTP.status === 200){
-      console.log(verifyOTP)
-
+    if (loginOTP){
+      console.log("loginOTP")
+      const verifyOTP = await VerifyOTP(
+        {
+          "phone": phoneNumber,
+          "countryCode": countryCode,
+          "otp": text,
+          "role": "user"
+      })
+      if(verifyOTP.statusCode === 200){
+        console.log(verifyOTP)
+        setLoginSuccess(true)
+        setOTPChecking(false);  
+      }
+      if (verifyOTP.statusCode === 400){
+        setOTPChecking(false);
+        setErrorMessage(verifyOTP.errors)
+      }
+    
     }
-    setOTPChecking(false);
+
+      if (registerOTP) {
+
+        console.log("registerOTP")
+        const verifyRegisterOTP = await VerifyOTPForRegister({
+          "phone": phoneNumber,
+          "countryCode": countryCode,
+          "otp": text
+      })
+      if(verifyRegisterOTP.statusCode === 200){
+        console.log(verifyRegisterOTP)
+        setLoginSuccess(true)
+        setOTPChecking(false);}
+      
+        if(verifyRegisterOTP.statusCode === 400){
+          setOTPChecking(false);
+          setErrorMessage(verifyRegisterOTP.errors)
+        }
+
+      }
+      
 
 
   };
@@ -43,8 +75,10 @@ const OtpInput = ({phoneNumber , countryCode } : OtpInputProps) => {
 
   return (
     <Flex gap="middle" align="flex-start" vertical>
-      <Title level={5}>With formatter (Upcase)</Title>
+      <Title level={5}>Please Enter OTP</Title>
       <Input.OTP formatter={(str) => str.toUpperCase()} {...sharedProps} disabled={OTPChecking} />
+      {ErrorMessage && <Alert message={ErrorMessage} type="error" showIcon />}
+       {LoginSuccess && <p>OTP verified successfully, Redirecting to dashboard</p>}
     </Flex>
   );
 };

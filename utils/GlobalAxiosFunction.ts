@@ -21,31 +21,16 @@ axiosInstance.interceptors.response.use(
 );
 
 export const get = async (url: string, params?: object) => {
-  try {
-    const response = await axiosInstance.get(url, { params });
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+  const response = await axiosInstance.get(url, { params });
+  return response.data;
 };
 
 export const post = async (url: string, body: object) => {
-  try {
-    const response = await axiosInstance.post(url, body);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+  const response = await axiosInstance.post(url, body);
+  return response.data;
 };
 
 export const put = async (url: string, body: object) => {
-  try {
-    const response = await axiosInstance.put(url, body);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+  const response = await axiosInstance.put(url, body);
+  return response.data;
 };
