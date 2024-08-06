@@ -15,14 +15,15 @@ const Signupform: React.FC = () => {
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
     const [ShowRegisterbutton, setShowRegisterbutton] = React.useState<boolean>(true);
     const [ErrorMessage, setErrorMessage] = React.useState<string | undefined>('');
+    const [UserInfo , setUserInfo] = React.useState<object | undefined>({});
     
     const handleRegisterUser = async (values: any) => {
       setErrorMessage("")
         const RegistertionData = {...values, phone: phoneNumber, countryCode: countryCode};
         setIsLoading(true);
-        console.log(RegistertionData);
+        setUserInfo(RegistertionData);
         const gentrateOTP = await GenerateOTPForRegister({"phone": phoneNumber, "countryCode": countryCode});
-        console.log(gentrateOTP);
+        console.log(gentrateOTP , "gentrateOTP");
         if (gentrateOTP.statusCode === 200) {
             setIsFormSubmitted(true);
         }
@@ -92,7 +93,7 @@ useEffect(() => {
     <div className=''>
       {isLoading && <LoaderIcon className='animate-spin' />} 
       {ErrorMessage && <Alert message={ErrorMessage} type="error" showIcon />}
-        {isFormSubmitted && <OtpInput phoneNumber={phoneNumber} countryCode={countryCode} registerOTP={true} loginOTP={false} />}
+        {isFormSubmitted && <OtpInput phoneNumber={phoneNumber} countryCode={countryCode} registerOTP={true} loginOTP={false} userInfo={UserInfo} />}
       </div>
     </div>
     <Form.Item>

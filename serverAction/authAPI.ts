@@ -43,7 +43,7 @@ export const VerifyOTP = async (body: {phone: string | undefined , countryCode: 
 
 // Register User API
 export const RegisterUser = async (body: object , sessionId : string) => {
-  const url = process.env.NEXT_PUBLIC_API_URL + "/user/register";
+  const url = process.env.NEXT_PUBLIC_BASE_API_URL + "/user/register";
   try {
     const response = await axios.post(url,  body , {
       headers: {
@@ -51,6 +51,7 @@ export const RegisterUser = async (body: object , sessionId : string) => {
         "X-API-Token": `${process.env.NEXT_PUBLIC_AIP_ACCESS_TOKEN}`,
       }
     });
+    console.log(response , "response from RegisterUser")
     return response;
   } catch (error : any) {
     console.error("Error in RegisterUser: ", error);
@@ -76,7 +77,7 @@ export const GenerateOTPForRegister = async (body: { phone: string | undefined, 
 };
 
 // Verify OTP for Register API
-export const VerifyOTPForRegister = async (body: {phone : string | undefined , countryCode : string | undefined , otp : string}) => {
+export const VerifyOTPForRegister = async (body: {phone : string | undefined , countryCode : string | undefined , otp : string , firstName : string , email:string , lastName:string}) => {
   try {
     const response = await post("/user/verify-otp/register", body );
     const accessToken = response.data.sessionId;
@@ -92,9 +93,9 @@ export const VerifyOTPForRegister = async (body: {phone : string | undefined , c
       RegisterUser({
         "phone": response.data.phone,
         "countryCode": response.data.countryCode,
-        "email": response.data.email,
-        "firstName": response.data.firstName ,
-        "lastName": response.data.lastName,
+        "email": body.email,
+        "firstName": body.firstName ,
+        "lastName": body.lastName,
     } , accessToken)
     }
     return response;
@@ -135,7 +136,8 @@ export const getAcessToken = async () => {
   const accessToken = cookiesStore.get("accessToken");
   
   if (!accessToken) {
-    throw new Error("Access Token not found in cookies");
+    console.log("Access Token not found in cookies");
+    return null;
   }
 
 return accessToken;

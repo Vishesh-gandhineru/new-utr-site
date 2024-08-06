@@ -13,10 +13,11 @@ type OtpInputProps = {
   phoneNumber: string | undefined,
   countryCode: string | undefined,
   loginOTP: boolean,
-  registerOTP: boolean
+  registerOTP: boolean,
+  userInfo?: object
 };
 
-const  OtpInput = ({phoneNumber , countryCode, loginOTP , registerOTP } : OtpInputProps) => {
+const  OtpInput = ({phoneNumber , countryCode, loginOTP , registerOTP,userInfo } : OtpInputProps) => {
 
   const [OTPChecking , setOTPChecking] = useState<boolean>(false);
   const [LoginSuccess , setLoginSuccess] = useState<boolean>(false);
@@ -24,8 +25,7 @@ const  OtpInput = ({phoneNumber , countryCode, loginOTP , registerOTP } : OtpInp
   const onChange: OTPProps["onChange"] = async (text) => {
     setErrorMessage("")
     setOTPChecking(true);
-    if (loginOTP){
-      console.log("loginOTP")
+    if (loginOTP === true) {
       const verifyOTP = await VerifyOTP(
         {
           "phone": phoneNumber,
@@ -34,7 +34,7 @@ const  OtpInput = ({phoneNumber , countryCode, loginOTP , registerOTP } : OtpInp
           "role": "user"
       })
       if(verifyOTP.statusCode === 200){
-        console.log(verifyOTP)
+        console.log(verifyOTP , "verifyOTPFromLoginOTP")
         setLoginSuccess(true)
         setOTPChecking(false);  
       }
@@ -45,18 +45,22 @@ const  OtpInput = ({phoneNumber , countryCode, loginOTP , registerOTP } : OtpInp
     
     }
 
-      if (registerOTP) {
+    if (registerOTP === true) {
+          const verifyRegisterOTP = await VerifyOTPForRegister({
+            "phone": phoneNumber,
+            "countryCode": countryCode,
+            "otp": text,
+            "email" : (userInfo as { email: string }).email,
+            "firstName" : (userInfo as {firstName: string}).firstName,
+            "lastName" :(userInfo as {lastName: string}).lastName,
 
-        console.log("registerOTP")
-        const verifyRegisterOTP = await VerifyOTPForRegister({
-          "phone": phoneNumber,
-          "countryCode": countryCode,
-          "otp": text
-      })
-      if(verifyRegisterOTP.statusCode === 200){
-        console.log(verifyRegisterOTP)
-        setLoginSuccess(true)
-        setOTPChecking(false);}
+        })
+        if(verifyRegisterOTP.statusCode === 200){
+          console.log(verifyRegisterOTP , "verifyOTPFromRegisterOTP")
+          setLoginSuccess(true)
+          setOTPChecking(false);
+          
+        }
       
         if(verifyRegisterOTP.statusCode === 400){
           setOTPChecking(false);

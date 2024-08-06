@@ -13,7 +13,7 @@ const LoginButton = () => {
 
     return (
         <div>
-            {userAuth ? <Button type="primary" className=' uppercase'>dashboard</Button> : "signup" }
+            {userAuth ? <Button type="primary" className=' uppercase' href='/dashboard'>dashboard</Button> : "signup" }
         </div>
     )
 }

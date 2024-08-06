@@ -1,11 +1,11 @@
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 
-const DashboardPage = () => {
+const Support = () => {
   return (
     <main>
       <section>
           <DashboardLayout>
-      <h1>Dashboard Overview</h1>
+      <h1>Support Overview</h1>
       <p>Welcome to your property booking dashboard!</p>
             <h2>Dashboard page</h2>
           </DashboardLayout>
@@ -15,4 +15,4 @@ const DashboardPage = () => {
 };
 
 
-export default DashboardPage;
+export default Support;

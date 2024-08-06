@@ -17,6 +17,11 @@ const useAuthStore = create<AuthStore>((set) => ({
   checkAuth: async () => {
     try {
       const response = await getAcessToken();
+      if(response === null){
+        set({ userAuth: false });
+        return;
+      }
+      
       set({ userAuth: true, user: response?.value });
     } catch (error) {
       set({ userAuth: false });
