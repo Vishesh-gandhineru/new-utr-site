@@ -6,6 +6,7 @@ import { persist } from 'zustand/middleware'
 // Define the shape of a favorite item
 interface FavoriteItem {
 propertyId: string | number
+id: string  | number
 name: string
 images: { displayPriority: number; url: string; type: string; _id: string }[]
 address: string
@@ -13,6 +14,7 @@ city: string
 state: string
 country: string
 slug: string
+column: number | null
 }
 
 // Define the shape of our store

@@ -1,78 +1,116 @@
 "use client"
 
-import React, { ReactNode, useState } from 'react';
-import { Button, Layout, Menu, MenuProps } from 'antd';
+import React, { useEffect, useState } from 'react';
 import {
-  HomeOutlined,
-  CalendarOutlined,
-  MessageOutlined,
-  SettingOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  UploadOutlined,
+  UserOutlined,
+  VideoCameraOutlined,
 } from '@ant-design/icons';
+import { Button, Layout, Menu, MenuProps, theme } from 'antd';
+import { CalendarCheck , User2Icon , SettingsIcon , HelpCircle , LogOutIcon  } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import path from 'path';
 
 
-const { Content, Sider } = Layout;
-import MainMenu from '../Header/Header';
+const { Header, Sider, Content } = Layout;
 
-const DashboardLayout = ({ children } : {children : ReactNode}) => {
+type DashboardLayoutProps = {
+  children: React.ReactNode;
+};
 
-  const menuItems = [
-    { key: '/dashboard', icon: <HomeOutlined />, label: (
-        <Link href="/dashboard">
-          Dashboard
-        </Link>
-      ), },
-    { key: '/dashboard/bookings', icon: <CalendarOutlined />, label: (
-      <Link href="/dashboard/bookings">
-      Bookings
-    </Link>
-      ), },
-    { key: '/dashboard/support', icon: <MessageOutlined />, label: (
-      <Link href="/dashboard/support">
-      Support
-    </Link>
-      ), },
-    { key: '/dashboard/settings', icon: <SettingOutlined />, label: (
-      <Link href="/dashboard/settings">
-      Setting
-    </Link>
-      ), },
-      { key: 'logout', label: (
-        <Button className='w-full' href="/dashboard/settings">
-        Logout
-      </Button>
-        ), },
-  ];
 
-  const [current, setCurrent] = useState('mail');
+const DashboardLayout = ({children } : DashboardLayoutProps) => {
+  const pathname = usePathname()
+  const [collapsed, setCollapsed] = useState(false);
+  const {token: { colorBgContainer, borderRadiusLG },} = theme.useToken();
+  const [current, setCurrent] = useState('1');
 
   const onClick: MenuProps['onClick'] = (e) => {
+    console.log('click ', e);
     setCurrent(e.key);
   };
 
+
   return (
-    <main className='container'>
-    <Layout style={{ minHeight: '100vh' }}>
-      <Sider className="site-layout-background">
-        <div className="logo" />
+    <Layout className='w-full'>
+      <Sider trigger={null} collapsible collapsed={collapsed} >
+        <div className="demo-logo-vertical" />
+  <div className='flex flex-col h-full justify-between py-8'>
         <Menu
+          theme="dark"
           mode="inline"
-          selectedKeys={[current]}
-          style={{ height: '100%', borderRight: 0, padding:0 }}
+          defaultSelectedKeys={[current]}
+          className=''
           onClick={onClick}
-          items={menuItems}
+          items={[
+            {
+              key: '1',
+              icon: <User2Icon />,
+              label: <Link href="/dashboard">Dashborad</Link>,
+            },
+            {
+              type: 'divider',
+            },
+            {
+              key: '2',
+              icon: <CalendarCheck />,
+              label: <Link href="/dashboard//bookings">My Bookings</Link>,
+            },
+            {
+              key: '3',
+              icon: <HelpCircle />,
+              label: <Link href="/dashboard/support">Support</Link>,
+            },
+            {
+              key: '4',
+              icon: <SettingsIcon />,
+              label: <Link href="/dashboard//settings">Settings</Link>,
+            },
+          ]}
         />
+        <Menu
+          theme="dark"
+          mode="inline"
+          items={[
+            {
+              key: '5',
+              icon: <LogOutIcon />,
+              label: <Link href="#">Logout</Link>,
+            }
+          ]}
+        />
+
+  </div>
       </Sider>
       <Layout>
-        <Content style={{ margin: '24px 16px 0' }}>
-          <div className="site-layout-background" style={{ padding: '0px 30px', minHeight: 360 }}>
-            {children}
-          </div>
+        <Header style={{ padding: 0, background: colorBgContainer }}>
+          <Button
+            type="text"
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            onClick={() => setCollapsed(!collapsed)}
+            style={{
+              fontSize: '16px',
+              width: 64,
+              height: 64,
+            }}
+          />
+        </Header>
+        <Content
+          style={{
+            margin: '24px 16px',
+            padding: 24,
+            minHeight: 280,
+            background: colorBgContainer,
+            borderRadius: borderRadiusLG,
+          }}
+        >
+         {children}
         </Content>
       </Layout>
     </Layout>
-
-    </main>
   );
 };
 

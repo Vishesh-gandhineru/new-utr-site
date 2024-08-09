@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Alert, Flex, Input, Typography } from "antd";
 import type { GetProps } from "antd";
 import { VerifyOTP, VerifyOTPForRegister } from "@/serverAction/authAPI";
+import { useRouter } from "next/navigation";
 
 type OTPProps = GetProps<typeof Input.OTP>;
 
@@ -22,6 +23,7 @@ const  OtpInput = ({phoneNumber , countryCode, loginOTP , registerOTP,userInfo }
   const [OTPChecking , setOTPChecking] = useState<boolean>(false);
   const [LoginSuccess , setLoginSuccess] = useState<boolean>(false);
   const [ErrorMessage , setErrorMessage] = useState<string | undefined>('');
+  const router = useRouter();
   const onChange: OTPProps["onChange"] = async (text) => {
     setErrorMessage("")
     setOTPChecking(true);
@@ -34,8 +36,8 @@ const  OtpInput = ({phoneNumber , countryCode, loginOTP , registerOTP,userInfo }
           "role": "user"
       })
       if(verifyOTP.statusCode === 200){
-        console.log(verifyOTP , "verifyOTPFromLoginOTP")
         setLoginSuccess(true)
+        router.push('/dashboard')
         setOTPChecking(false);  
       }
       if (verifyOTP.statusCode === 400){
@@ -56,9 +58,10 @@ const  OtpInput = ({phoneNumber , countryCode, loginOTP , registerOTP,userInfo }
 
         })
         if(verifyRegisterOTP.statusCode === 200){
-          console.log(verifyRegisterOTP , "verifyOTPFromRegisterOTP")
           setLoginSuccess(true)
+          router.push('/dashboard')
           setOTPChecking(false);
+
           
         }
       

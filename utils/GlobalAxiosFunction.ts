@@ -34,3 +34,7 @@ export const put = async (url: string, body: object) => {
   const response = await axiosInstance.put(url, body);
   return response.data;
 };
+
+
+
+

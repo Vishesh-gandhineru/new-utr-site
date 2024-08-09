@@ -12,6 +12,8 @@ interface CompareItem {
     state: string
     country: string
     slug: string
+    column: number | null
+    id: string | number
 }
 
 // Define the shape of our compare store

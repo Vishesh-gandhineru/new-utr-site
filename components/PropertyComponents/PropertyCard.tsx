@@ -22,7 +22,7 @@ type PropertyCardProps = {
 const PropertyCard = ({images , name , address , city , state , country , slug, propertyId} : PropertyCardProps) => {
 
   const { addFavorite, removeFavorite, isFavorite } = useFavProperty();
-  const { addToCompare, removeFromCompare, isInCompare } = useCompareProperty();
+  const { addToCompare, removeFromCompare, isInCompare , compareItems } = useCompareProperty();
 
   const isFav = isFavorite(propertyId);
   const isCompared = isInCompare(propertyId);
@@ -32,7 +32,7 @@ const PropertyCard = ({images , name , address , city , state , country , slug, 
       return;
     }
 
-    addFavorite({propertyId,images , name , address , city , state , country , slug});
+    addFavorite({propertyId , id:propertyId ,images , name , address , city , state , country , slug, column: null});
   };
 
   const handleAddToCompare = () => {
@@ -41,7 +41,9 @@ const PropertyCard = ({images , name , address , city , state , country , slug, 
       return;
     }
 
-    addToCompare({propertyId,images , name , address , city , state , country , slug});
+    if (compareItems.length <= 3 ) {
+      addToCompare({propertyId,images , name , address , city , state , country , slug , column: null , id: propertyId});
+    }
   }
 
 

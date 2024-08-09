@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Carousel } from "antd";
+import Image from "next/image";
 
 const contentStyle: React.CSSProperties = {
   margin: 0,
@@ -21,8 +22,8 @@ const PropertyImageCarousel = ({ images }: PropertyImageCarouselProps) => (
     <Carousel arrows infinite={true} draggable>
       {images.map((item) => {
         return (
-          <div key={item._id}>
-            <img src={item.url || "https://placehold.co/600x400"} className="w-full h-[250px] object-cover object-center pointer-events-none" />
+          <div key={item._id} className="w-full h-[250px] relative">
+            <Image alt="" src={item.url || "https://placehold.co/600x400"} fill className="absolute object-cover object-center pointer-events-none" />
           </div>
         );
       })}
