@@ -4,6 +4,7 @@ import "./globals.css";
 import { ConfigProvider } from "antd";
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import MainMenu from "@/components/Header/Header";
+import GlobalLayout from "@/components/GlobalLayout";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -20,8 +21,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <AntdRegistry>
-          <MainMenu />
+        <GlobalLayout>
           {children}
+        </GlobalLayout>
         </AntdRegistry>
       </body>
     </html>

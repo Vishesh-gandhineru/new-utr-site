@@ -70,6 +70,31 @@
   body {
     @apply bg-background text-foreground;
   }
+  html {
+    @apply text-base;
+  }
+  body {
+    @apply text-base md:text-lg;
+  }
+  h1 {
+    @apply text-2xl sm:text-3xl md:text-4xl font-bold mb-4;
+  }
+  h2 {
+    @apply text-xl sm:text-2xl md:text-3xl font-semibold mb-3;
+  }
+  h3 {
+    @apply text-lg sm:text-xl md:text-2xl font-medium mb-2;
+  }
+  p {
+    @apply mb-4 leading-relaxed;
+  }
+}
+
+
+@layer components {
+.container {
+    @apply max-w-[2500px] w-full mx-auto px-4 mb-8 sm:px-6  lg:px-8 xl:px-12 ;
+  }
 }
 
 

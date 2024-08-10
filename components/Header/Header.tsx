@@ -12,7 +12,7 @@ const MainMenu = () => {
   const favCount = favorites.length;
   const compareCount = compareItems.length;
   return (
-    <nav className='flex border-2 p-5 justify-between my-6 rounded-2xl' >
+    <nav className='flex border-2 p-5 justify-between rounded-2xl' >
         <ul className='flex gap-6 uppercase'>
             <Link href='/'>home</Link>
             <Link href="/about">about</Link>
