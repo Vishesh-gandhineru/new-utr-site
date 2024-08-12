@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Popover, Button } from 'antd';
 import { PlusOutlined, MinusOutlined, UserOutlined } from '@ant-design/icons';
+import { cn } from '@/lib/utils';
 
 interface GuestCounts {
   adults: number;
@@ -18,7 +19,7 @@ const defaultGuestCounts: GuestCounts = {
   pets: 0,
 };
 
-const GuestSelectionPopover: React.FC = () => {
+const GuestSelectionPopover = ({className} : {className?: string}) => {
   const [guestCounts, setGuestCounts] = useState<GuestCounts>(defaultGuestCounts);
   const [isMounted, setIsMounted] = useState(false);
 
@@ -73,7 +74,7 @@ const GuestSelectionPopover: React.FC = () => {
   };
 
   const content = (
-    <div className="w-64">
+    <div className="w-full">
       {(Object.keys(guestCounts) as Array<keyof GuestCounts>).map((type) => (
         <div key={type} className="flex justify-between items-center mb-4">
           <span className="capitalize">{type}</span>
@@ -103,8 +104,9 @@ const GuestSelectionPopover: React.FC = () => {
       trigger="click"
       placement="bottom"
     >
-      <Button icon={<UserOutlined />} className="w-full flex justify-between items-center px-4 py-2 border border-gray-300 rounded-md">
-        <span>Guests</span>
+      <Button icon={<UserOutlined />} className={cn("w-fit flex justify-between items-center px-2 py-2 border border-gray-300 rounded-md", [
+        className,
+      ])}>
         <span>{isMounted ? getGuestSummary() : 'Add Guest'}</span>
       </Button>
     </Popover>

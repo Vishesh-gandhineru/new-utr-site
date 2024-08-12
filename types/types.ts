@@ -13,3 +13,30 @@ export type CardType = {
     country: string
     slug: string
 };
+
+
+export type PropertyGeneral = {
+  minOccupancy: number;
+  address: string;
+  city: string;
+  checkinFrom: string;
+  postalCode: string;
+  latitude: number;
+  licenseCode: string;
+  typeCode: string;
+  type: string;
+  countryCode: string;
+  maxPets: number;
+  name: string;
+  checkoutFrom: string;
+  checkoutUntil: string;
+  state: string;
+  maxOccupancy: number;
+  maxAdults: number;
+  additionalChildren: number;
+  parkCode: string;
+  region: string;
+  longitude: number;
+  checkinUntil: string;
+  _id: string;
+}

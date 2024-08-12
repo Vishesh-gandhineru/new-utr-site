@@ -6,6 +6,7 @@ import { HeartIcon , Columns3 } from 'lucide-react';
 import useFavProperty from '@/context/useFavProperty';
 import useCompareProperty from '@/context/usePropertyCompare';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 type PropertyCardProps = {
     images: { displayPriority: number; url: string; type: string; _id: string }[];
@@ -51,12 +52,13 @@ const PropertyCard = ({images , name , address , city , state , country , slug, 
     <div className=' relative rounded-xl overflow-hidden'>
       <PropertyImageCarousel images={images} />
       <div className='border-2 rounded-b-xl p-5 space-y-3'>
+
         <h2>{name}</h2>
         <p>Address : {address}</p>
         <p>City: {city}</p>
         <p>State : {state}</p>
         <p>Country : {country}</p>
-        <Button>Book now</Button>
+        <Button href={`/properties/${slug}`}>Book now</Button>
       </div>
       <Tooltip title="Favorite">
       <button className=' absolute top-3 right-3' onClick={handleAddFavorite}>

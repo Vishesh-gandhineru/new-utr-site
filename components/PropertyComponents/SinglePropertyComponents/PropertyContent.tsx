@@ -3,15 +3,37 @@ import React from 'react'
 import { Card , Divider ,Avatar } from 'antd'
 import { AwardIcon , StarIcon , CalendarCheckIcon , MedalIcon , MapPinIcon , UserCircle2Icon  } from 'lucide-react'
 import Link from 'next/link';
+import { PropertyGeneral } from '@/types/types';
+
+type PropertyContentProps = {
+  content : {
+    general: PropertyGeneral ;
+    descriptions: Array<{
+      text: string;
+      type: string;
+      typeCode: string;
+      _id: string;
+    }>;
+    amenities: Array<{
+      attribute: any[];
+      typeCode: string;
+      type: string;
+      _id: string;
+    }>;
+
+  }
+
+}
 
 
-
-const PropertyContent = () => {
+const PropertyContent = ({content} : PropertyContentProps) => {
+  const {general , descriptions, amenities} = content;
+  const { name, address, city, state , maxAdults , maxPets , maxOccupancy, type} = general;
   return (
     <div className="grid gap-6">
           <div>
-            <h1 className="text-3xl font-bold">Cozy Mountain Retreat</h1>
-            <p className="text-muted-foreground">2 guests · 1 bedroom · 1 bed · 1 bath · Wifi · Kitchen</p>
+            <h1 className="text-3xl font-bold capitalize">{name}</h1>
+            <p className="text-muted-foreground">{`${maxOccupancy} Guests · ${maxPets} Max Pets · Type : ${type}`}</p>
           </div>
           <Card>
             <div className="relative flex items-center gap-6 p-4 sm:p-6">
@@ -82,15 +104,14 @@ const PropertyContent = () => {
           </div>
           <Divider />
           <div className="prose">
-            <p>
-              Welcome to our serene mountain retreat! Nestled amidst the tranquil beauty of the mountains, this cozy
-              home is your perfect getaway for relaxation and adventure.
-            </p>
-            <p>
-              Wake up to breathtaking vistas from every window. Enjoy your morning coffee on the balcony, taking in the
-              serene landscape. This mountain haven is perfect for families, friends, and couples seeking a blend of
-              adventure and relaxation. Book your stay and experience the magic of the mountains!
-            </p>
+            {descriptions.map((description) => {
+              return (
+                <div key={description._id}>
+                  {description.type === 'Headline' && <h2>{description.text}</h2>}
+                  <p>{description.text}</p>
+                </div>
+              )
+            })}
           </div>
         </div>
   )
