@@ -14,6 +14,7 @@ const PropertySinglePage = async ({ params }: PropertySinglePageProps) => {
   const slug = params.slug;
   const getSingleProperty = await getSinglePropertyBySlug(slug);
   const images = getSingleProperty.images;
+ 
   return (
     <main>
       <section className="container">
@@ -24,7 +25,7 @@ const PropertySinglePage = async ({ params }: PropertySinglePageProps) => {
           <PropertyContent content={getSingleProperty} />
         </div>
         <div className="col-span-1">
-          <BookingForm />
+          <BookingForm propertyId={getSingleProperty.propertyId} PropertySlug={slug}/>
         </div>
       </section>
     </main>

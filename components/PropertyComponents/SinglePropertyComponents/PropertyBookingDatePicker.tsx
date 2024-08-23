@@ -1,9 +1,10 @@
 "use client"
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, SetStateAction, Dispatch } from 'react';
 import { DatePicker, Tooltip } from 'antd';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
+import { set } from 'lodash';
 
 const { RangePicker } = DatePicker;
 
@@ -12,22 +13,35 @@ interface DateRange {
   checkout: string | null;
 }
 
-const PropertyBookingDatePicker = ({className} : {className?: string}) => {
-  const [dateRange, setDateRange] = useState<DateRange>({ checkin: null, checkout: null });
+
+type PropertyBookingDatePickerProps = {
+  className?: string;
+  
+  dateRange: DateRange;
+  setDateRange: Dispatch<SetStateAction<DateRange>>;
+};
+
+
+
+
+const PropertyBookingDatePicker = ({className, dateRange , setDateRange} : PropertyBookingDatePickerProps) => {
+
   const [bookedDates, setBookedDates] = useState<string[]>([]);
 
   useEffect(() => {
     const storedDates = sessionStorage.getItem('dateRange');
     if (storedDates) {
       setDateRange(JSON.parse(storedDates));
+   
     }
 
     // Simulating fetching booked dates from an API or database
-    const fetchedBookedDates = ['2024-08-15', '2024-08-16', '2024-08-17', '2024-08-25', '2024-08-26'];
+    const fetchedBookedDates = [''];
     setBookedDates(fetchedBookedDates);
   }, []);
 
   const handleDateChange = (dates: [Dayjs | null, Dayjs | null] | null) => {
+    
     if (dates && dates[0] && dates[1]) {
       const [checkin, checkout] = dates;
       const start = checkin.startOf('day');
@@ -45,6 +59,7 @@ const PropertyBookingDatePicker = ({className} : {className?: string}) => {
           checkout: checkout.format('YYYY-MM-DD'),
         };
         setDateRange(newDateRange);
+    
         sessionStorage.setItem('dateRange', JSON.stringify(newDateRange));
       } else {
         // If range is not valid, reset the selection

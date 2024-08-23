@@ -52,8 +52,9 @@ const PropertyCard = ({images , name , address , city , state , country , slug, 
     <div className=' relative rounded-xl overflow-hidden'>
       <PropertyImageCarousel images={images} />
       <div className='border-2 rounded-b-xl p-5 space-y-3'>
-
+        <Link href={`/properties/${slug}`}>
         <h2>{name}</h2>
+        </Link>
         <p>Address : {address}</p>
         <p>City: {city}</p>
         <p>State : {state}</p>

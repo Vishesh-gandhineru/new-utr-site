@@ -19,9 +19,17 @@ const defaultGuestCounts: GuestCounts = {
   pets: 0,
 };
 
-const GuestSelectionPopover = ({className} : {className?: string}) => {
-  const [guestCounts, setGuestCounts] = useState<GuestCounts>(defaultGuestCounts);
+type GuestSelectionPopoverProps = {
+  className?: string;
+  guestCounts?: GuestCounts;
+  setGuestCounts?: any
+};
+
+
+const GuestSelectionPopover = ({className , guestCounts , setGuestCounts} : GuestSelectionPopoverProps) => {
+
   const [isMounted, setIsMounted] = useState(false);
+
 
   useEffect(() => {
     setIsMounted(true);
@@ -29,6 +37,7 @@ const GuestSelectionPopover = ({className} : {className?: string}) => {
       const storedCounts = sessionStorage.getItem('guestCounts');
       if (storedCounts) {
         setGuestCounts(JSON.parse(storedCounts));
+        
       }
     }
   }, []);
@@ -40,7 +49,7 @@ const GuestSelectionPopover = ({className} : {className?: string}) => {
   }, [guestCounts, isMounted]);
 
   const handleIncrement = (type: keyof GuestCounts) => {
-    setGuestCounts(prev => {
+    setGuestCounts((prev : any) => {
       const newCounts = { ...prev, [type]: prev[type] + 1 };
       sessionStorage.setItem('guestCounts', JSON.stringify(newCounts));
       return newCounts;
@@ -48,7 +57,7 @@ const GuestSelectionPopover = ({className} : {className?: string}) => {
   };
 
   const handleDecrement = (type: keyof GuestCounts) => {
-    setGuestCounts(prev => {
+    setGuestCounts((prev : any) => {
       const newCounts = { ...prev, [type]: Math.max(0, prev[type] - 1) };
       sessionStorage.setItem('guestCounts', JSON.stringify(newCounts));
       return newCounts;

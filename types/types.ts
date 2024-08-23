@@ -40,3 +40,19 @@ export type PropertyGeneral = {
   checkinUntil: string;
   _id: string;
 }
+
+
+export type BookingCardType = {
+  id: number;
+  propertyName: string;
+  slug: string;
+  checkIn: string;
+  checkOut: string;
+  status: string;
+  location: string;
+  address : string;
+  currency: string;
+  breakdown: {
+    total: number;
+  };
+};

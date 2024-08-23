@@ -13,6 +13,7 @@ import { CalendarCheck , User2Icon , SettingsIcon , HelpCircle , LogOutIcon  } f
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import path from 'path';
+import {motion} from 'framer-motion';
 
 
 const { Header, Sider, Content } = Layout;
@@ -26,25 +27,39 @@ const DashboardLayout = ({children } : DashboardLayoutProps) => {
   const pathname = usePathname()
   const [collapsed, setCollapsed] = useState(false);
   const {token: { colorBgContainer, borderRadiusLG },} = theme.useToken();
-  const [current, setCurrent] = useState('1');
+  const [current, setCurrent] = useState<string>('1');
+ 
 
-  const onClick: MenuProps['onClick'] = (e) => {
-    console.log('click ', e);
-    setCurrent(e.key);
-  };
+  useEffect(() => {
+    if (pathname === '/dashboard') {
+      setCurrent('1');
+    }
+    if (pathname === '/dashboard/bookings') {
+      setCurrent('2');
+    }
+    if (pathname === '/dashboard/support') {
+      setCurrent('3');
+    }
+    if (pathname === '/dashboard/settings') {
+      setCurrent('4');
+
+   }
+    if (pathname === '/dashboard/logout') {
+      setCurrent('5');
+    }
+  }, [pathname]);
 
 
   return (
-    <Layout className='w-full'>
+    <Layout className='w-full h-full'>
       <Sider trigger={null} collapsible collapsed={collapsed} >
         <div className="demo-logo-vertical" />
   <div className='flex flex-col h-full justify-between py-8'>
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={[current]}
-          className=''
-          onClick={onClick}
+          defaultSelectedKeys = {['1']}
+          selectedKeys={[current]}
           items={[
             {
               key: '1',

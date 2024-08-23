@@ -1,51 +1,66 @@
-import { Card } from "antd"
-import { Button } from "antd";
-import Link from "next/link"
-import { UserIcon , BabyIcon , PawPrintIcon , CalendarIcon } from "lucide-react"
-import { Divider } from "antd";
-export default function Component() {
-  return (
-    <Card className="w-full max-w-sm rounded-lg overflow-hidden shadow-lg" hoverable>
-      <Link href="#" className="block" prefetch={false}>
-        <img
-          src="/placeholder.svg"
-          alt="Property Image"
-          width="400"
-          height="200"
-          className="w-full h-48 object-cover"
-          style={{ aspectRatio: "400/200", objectFit: "cover" }}
-        />
-      </Link>
-      <div className="p-6">
-        <div className="flex items-center justify-between mb-4">
-          <Link href="#" className="text-lg font-semibold hover:text-primary" prefetch={false}>
-            Modern Townhouse
-          </Link>
-          <div className="text-primary font-bold">$450,000</div>
-        </div>
-        <div className="text-muted-foreground text-sm mb-4">123 Main St, Anytown USA</div>
-        <div className="flex items-center text-muted-foreground text-sm mb-6">
-          <UserIcon className="w-4 h-4 mr-2" />
-          2 Adults
-          <Divider className="mx-2" />
-          <BabyIcon className="w-4 h-4 mr-2" />
-          1 Child
-          <Divider className="mx-2" />
-          <PawPrintIcon className="w-4 h-4 mr-2" />
-          1 Pet
-        </div>
-        <div className="flex items-center text-muted-foreground text-sm mb-6">
-          <CalendarIcon className="w-4 h-4 mr-2" />
-          Check-in: 4/2/2024, 3:00 PM
-          <Divider className="mx-2" />
-          <CalendarIcon className="w-4 h-4 mr-2" />
-          Check-out: 10/2/2024, 11:00 AM
-        </div>
-        <Button className="w-full">
-          View Details
-        </Button>
-      </div>
-    </Card>
-  )
-}
+"use client"
+import React from 'react';
+import { Card, Badge, Typography, Space, Row, Col, Button } from 'antd';
+import { BookingCardType } from '@/types/types';
 
+const { Text, Title } = Typography;
+
+type BookingCardProps = {
+  booking: BookingCardType;
+};
+
+
+export default function BookingCard({ booking }: BookingCardProps) {
+
+  const { slug, status , checkIn , checkOut , breakdown, currency } = booking;
+  const BadgeColor = status === 'confirmed' ? 'green' : status === 'failed' ? 'red' : status === 'pending' ? 'blue' : 'default';
+  return (
+    <Card
+      className="w-full max-w-md"
+      cover={
+        <Badge.Ribbon color={BadgeColor} className='!uppercase' text={status} >
+        <div style={{ position: 'relative' }}>
+          <img
+            alt="Property Image"
+            src="https://placehold.co/600x400"
+            style={{ aspectRatio: '5/3', width: '100%', objectFit: 'cover' }}
+          />
+        </div>
+        </Badge.Ribbon>
+      }
+    >
+      <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+        <Row justify="space-between" align="top">
+          <Col>
+            <Title level={4} style={{ margin: 0 }}>{slug}</Title>
+            <Text type="secondary">Santa Cruz, California</Text>
+          </Col>
+          <Col>
+            <Title level={3} style={{ margin: 0 }}>{currency} {breakdown.total}</Title>
+          </Col>
+        </Row>
+        <Row gutter={16}>
+          <Col span={12}>
+            <Text strong>Check-in</Text>
+            <br />
+            <Text type="secondary">{checkIn}</Text>
+          </Col>
+          <Col span={12}>
+            <Text strong>Check-out</Text>
+            <br />
+            <Text type="secondary">{checkOut}</Text>
+          </Col>
+        </Row>
+        <div>
+          <Text strong>Address</Text>
+          <br />
+          <Text type="secondary">123 Main St, Santa Cruz, CA 95060</Text>
+        </div>
+        <div className='flex justify-between'>
+          <Button>Detials</Button>
+          <Button>Cancel</Button>
+        </div>
+      </Space>
+    </Card>
+  );
+}

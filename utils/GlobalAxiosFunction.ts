@@ -1,6 +1,7 @@
-"use server";
+'use server'
 
 import axios from "axios";
+import { cookies } from "next/headers";
 
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_API_URL,
@@ -8,6 +9,15 @@ const axiosInstance = axios.create({
     "Content-Type": "application/json",
     "X-API-Token": `${process.env.NEXT_PUBLIC_AIP_ACCESS_TOKEN}`,
   },
+});
+
+axiosInstance.interceptors.request.use((config) => {
+  const cookieStore = cookies();
+  const token = cookieStore.get('accessToken')?.value;
+  if (token) {
+    config.headers['Authorization'] = `Bearer ${token}`;
+  }
+  return config;
 });
 
 axiosInstance.interceptors.response.use(
@@ -34,7 +44,3 @@ export const put = async (url: string, body: object) => {
   const response = await axiosInstance.put(url, body);
   return response.data;
 };
-
-
-
-

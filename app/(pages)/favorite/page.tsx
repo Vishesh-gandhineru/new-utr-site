@@ -3,7 +3,9 @@ import PropertyGrid from "@/components/PropertyComponents/PropertyGrid";
 import React from "react";
 import useFavProperty from "@/context/useFavProperty";
 import PropertyCard from "@/components/PropertyComponents/PropertyCard";
-const page = () => {
+
+
+export default function FavoritesPage () {
   const { favorites } = useFavProperty();
   return (
     <main>
@@ -30,4 +32,3 @@ const page = () => {
   );
 };
 
-export default page;
