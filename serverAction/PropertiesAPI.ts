@@ -54,10 +54,13 @@ export const getPropertyRatePlan = async (slug: string) => {
 
 export const getPropertyCalendar = async (slug: string) => {
   try {
-    const response = await get(`/property/calendar/${slug}`, {});
+    const response = await get(`/calendar/${slug}`, {});
     return response.data;
-  } catch (error) {
+  } catch (error:any) {
     console.error(error);
+    if (error?.response.status === 400 || error?.response.status === 401 || error?.response.status === 500 || error?.response.status === 409 || error?.response.status === 404) {
+      return error?.response.data;
+    }
     throw error;
   }
 };

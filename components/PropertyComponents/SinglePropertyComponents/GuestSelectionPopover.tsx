@@ -21,15 +21,16 @@ const defaultGuestCounts: GuestCounts = {
 
 type GuestSelectionPopoverProps = {
   className?: string;
-  guestCounts?: GuestCounts;
-  setGuestCounts?: any
+  guestCounts: GuestCounts;
+  setGuestCounts: React.Dispatch<React.SetStateAction<GuestCounts>>;
 };
 
-
-const GuestSelectionPopover = ({className , guestCounts , setGuestCounts} : GuestSelectionPopoverProps) => {
-
+const GuestSelectionPopover: React.FC<GuestSelectionPopoverProps> = ({
+  className,
+  guestCounts,
+  setGuestCounts
+}) => {
   const [isMounted, setIsMounted] = useState(false);
-
 
   useEffect(() => {
     setIsMounted(true);
@@ -37,10 +38,9 @@ const GuestSelectionPopover = ({className , guestCounts , setGuestCounts} : Gues
       const storedCounts = sessionStorage.getItem('guestCounts');
       if (storedCounts) {
         setGuestCounts(JSON.parse(storedCounts));
-        
       }
     }
-  }, []);
+  }, [setGuestCounts]);
 
   useEffect(() => {
     if (isMounted) {
@@ -49,7 +49,7 @@ const GuestSelectionPopover = ({className , guestCounts , setGuestCounts} : Gues
   }, [guestCounts, isMounted]);
 
   const handleIncrement = (type: keyof GuestCounts) => {
-    setGuestCounts((prev : any) => {
+    setGuestCounts((prev) => {
       const newCounts = { ...prev, [type]: prev[type] + 1 };
       sessionStorage.setItem('guestCounts', JSON.stringify(newCounts));
       return newCounts;
@@ -57,7 +57,7 @@ const GuestSelectionPopover = ({className , guestCounts , setGuestCounts} : Gues
   };
 
   const handleDecrement = (type: keyof GuestCounts) => {
-    setGuestCounts((prev : any) => {
+    setGuestCounts((prev) => {
       const newCounts = { ...prev, [type]: Math.max(0, prev[type] - 1) };
       sessionStorage.setItem('guestCounts', JSON.stringify(newCounts));
       return newCounts;
@@ -65,7 +65,7 @@ const GuestSelectionPopover = ({className , guestCounts , setGuestCounts} : Gues
   };
 
   const getGuestSummary = (): string => {
-    const pluralRules: { [key: string]: (count: number) => string } = {
+    const pluralRules: Record<keyof GuestCounts, (count: number) => string> = {
       adults: (count) => count === 1 ? 'Adult' : 'Adults',
       children: (count) => count === 1 ? 'Child' : 'Children',
       infants: (count) => count === 1 ? 'Infant' : 'Infants',
@@ -75,7 +75,7 @@ const GuestSelectionPopover = ({className , guestCounts , setGuestCounts} : Gues
     const summary = Object.entries(guestCounts)
       .filter(([_, count]) => count > 0)
       .map(([type, count]) => {
-        const label = pluralRules[type](count);
+        const label = pluralRules[type as keyof GuestCounts](count);
         return `${count} ${label}`;
       });
 
@@ -113,9 +113,7 @@ const GuestSelectionPopover = ({className , guestCounts , setGuestCounts} : Gues
       trigger="click"
       placement="bottom"
     >
-      <Button icon={<UserOutlined />} className={cn("w-fit flex justify-between items-center px-2 py-2 border border-gray-300 rounded-md", [
-        className,
-      ])}>
+      <Button icon={<UserOutlined />} className={cn("w-fit flex justify-between items-center px-2 py-2 border border-gray-300 rounded-md", className)}>
         <span>{isMounted ? getGuestSummary() : 'Add Guest'}</span>
       </Button>
     </Popover>

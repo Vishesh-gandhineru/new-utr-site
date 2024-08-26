@@ -4,7 +4,7 @@ import React, { useState, useEffect, SetStateAction, Dispatch } from 'react';
 import { DatePicker, Tooltip } from 'antd';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
-import { set } from 'lodash';
+import { getPropertyCalendar } from '@/serverAction/PropertiesAPI';
 
 const { RangePicker } = DatePicker;
 
@@ -18,13 +18,14 @@ type PropertyBookingDatePickerProps = {
   className?: string;
   
   dateRange: DateRange;
+  PropertySlug: string;
   setDateRange: Dispatch<SetStateAction<DateRange>>;
 };
 
 
 
 
-const PropertyBookingDatePicker = ({className, dateRange , setDateRange} : PropertyBookingDatePickerProps) => {
+const PropertyBookingDatePicker = ({className, dateRange , setDateRange , PropertySlug} : PropertyBookingDatePickerProps) => {
 
   const [bookedDates, setBookedDates] = useState<string[]>([]);
 
@@ -32,13 +33,24 @@ const PropertyBookingDatePicker = ({className, dateRange , setDateRange} : Prope
     const storedDates = sessionStorage.getItem('dateRange');
     if (storedDates) {
       setDateRange(JSON.parse(storedDates));
-   
     }
 
-    // Simulating fetching booked dates from an API or database
-    const fetchedBookedDates = [''];
-    setBookedDates(fetchedBookedDates);
-  }, []);
+    const fetchBookedDates = async () => {
+      try {
+        const response = await getPropertyCalendar(PropertySlug);        
+        // Process the response to get booked dates
+        const bookedDatesArray = Object.entries(response)
+          .filter(([date, data]: [string, any]) => data.quantity === 0)
+          .map(([date]) => date);
+        
+        setBookedDates(bookedDatesArray);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchBookedDates();
+  }, [PropertySlug, setDateRange]);
 
   const handleDateChange = (dates: [Dayjs | null, Dayjs | null] | null) => {
     

@@ -70,7 +70,7 @@ const PropertyCard = ({images , name , address , city , state , country , slug, 
       </Tooltip>
       <Tooltip title="Compare">
       <button className=' absolute top-3 left-3' onClick={handleAddToCompare}>
-      <Columns3 className={cn('w-8 h-8 stroke-white' , [
+      <Columns3 suppressHydrationWarning className={cn('w-8 h-8 stroke-white' , [
         isCompared ? 'fill-blue-500' : ''
       ])} />
       </button>

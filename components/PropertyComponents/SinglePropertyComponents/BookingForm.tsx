@@ -1,22 +1,22 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import PropertyBookingDatePicker from "./PropertyBookingDatePicker";
 import GuestSelectionPopover from "./GuestSelectionPopover";
-import { checkAvailability } from "@/serverAction/BookingAPI";
-
+import { GetPropertyquote, checkAvailability } from "@/serverAction/BookingAPI";
+import { LoadingOutlined } from "@ant-design/icons";
+import { Spin } from "antd";
 
 type DateRange = {
   checkin: string | null;
   checkout: string | null;
-}
+};
 
-
-type GuestCounts =  {
+type GuestCounts = {
   adults: number;
   children: number;
   infants: number;
   pets: number;
-}
+};
 
 const defaultGuestCounts: GuestCounts = {
   adults: 0,
@@ -28,49 +28,85 @@ const defaultGuestCounts: GuestCounts = {
 type BookingFormProps = {
   propertyId: string;
   PropertySlug: string;
+};
 
-}
-
-const BookingForm = ({propertyId , PropertySlug} : BookingFormProps) => {
-  const [dateRange, setDateRange] = useState<DateRange>({ checkin: null, checkout: null });
-  const [guestCounts, setGuestCounts] = useState<GuestCounts>(defaultGuestCounts);
+const BookingForm = ({ propertyId, PropertySlug }: BookingFormProps) => {
+  const [dateRange, setDateRange] = useState<DateRange>({
+    checkin: null,
+    checkout: null,
+  });
+  const [guestCounts, setGuestCounts] =
+    useState<GuestCounts>(defaultGuestCounts);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
-  const [availabilityData, setAvailabilityData] = useState(null);
- 
+  const [QuotationData, setQuotationData] = useState<Record<string, any> | null>(null);
 
+  const AvailabilityBody = {
+    propertyId: propertyId, //required
+    slug: PropertySlug, //required
+    checkIn: dateRange.checkin, //required format = YYYY-MM-DD
+    checkOut: dateRange.checkout, //required format = YYYY-MM-DD
+    adults: guestCounts.adults, //required format = int
+    children: guestCounts.children, //optional or send 0 format = int
+    babies: guestCounts.infants, //optional or send 0 format = int
+    pets: guestCounts.pets, //optional or send 0 format = int
+    currency: "INR",
+    rateplanId: null
+  };
+
+  const handleCheckAvailability = async () => {
+    setLoading(true);
+    try {
+      const response = await GetPropertyquote(AvailabilityBody);
+      setLoading(false);
+      console.log(response);
+      if (response.statusCode === 409) {
+        return setError("No availability found");
+      }
+      if (response.available){
+        setSuccess(true);
+      }
+      return setQuotationData(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  console.log(QuotationData);
   
- const AvailabilityBody = {
-  "propertyId": propertyId, //required
-  "slug": PropertySlug, //required
-  "checkIn":dateRange.checkin,  //required format = YYYY-MM-DD
-  "checkOut": dateRange.checkout,  //required format = YYYY-MM-DD
-  "adults": guestCounts.adults,  //required format = int
-  "children": guestCounts.children, //optional or send 0 format = int
-  "babies": guestCounts.infants, //optional or send 0 format = int
-  "pets": guestCounts.pets//optional or send 0 format = int
-}
-
-
-console.log(AvailabilityBody , "AvailabilityBody");
-const handleCheckAvailability = async () => {
-  setLoading(true);
-  try {
-    const response = await checkAvailability(AvailabilityBody)
-    setLoading(false);
-    console.log(response);    
-    return setAvailabilityData(response);
-  } catch (error) {
-    console.error(error);
-  }
-}
 
   return (
-    <div className=" space-y-5 border-[1px] border-primary rounded-2xl p-6 ">
-      <PropertyBookingDatePicker  className="w-full" dateRange={dateRange} setDateRange={setDateRange} />
-      <GuestSelectionPopover className="w-full" guestCounts={guestCounts} setGuestCounts={setGuestCounts}/>
-      <button className="w-full p-2 bg-primary text-sm rounded-lg text-white" onClick={handleCheckAvailability}>Check Availability</button>
+    <div className="space-y-5 rounded-2xl border-[1px] border-primary p-6">
+      <PropertyBookingDatePicker
+        className="w-full"
+        dateRange={dateRange}
+        setDateRange={setDateRange}
+        PropertySlug={PropertySlug}
+      />
+      <GuestSelectionPopover
+        className="w-full"
+        guestCounts={guestCounts}
+        setGuestCounts={setGuestCounts}
+      />
+      <button
+        className="relative w-full rounded-lg bg-primary p-2 text-sm text-white"
+        onClick={handleCheckAvailability}
+      >
+        Check Availability{" "}
+        {loading && (
+          <Spin
+            className="!absolute right-20"
+            indicator={<LoadingOutlined spin />}
+          />
+        )}
+      </button>
+      {error && <p className="text-sm text-red-500 text-center">{error}</p>}
+      {success && <p className="text-sm text-green-500 text-center">Property is available</p>}
+      {QuotationData && 
+      <div>
+      <h2>Total : {QuotationData.breakdown.total}</h2>
+      </div>}
     </div>
   );
 };
