@@ -24,7 +24,7 @@ export default async function Home() {
         <Signupform />
         </div>
         <div>
-          <PropertyGrid className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-between gap-5" />
+          <PropertyGrid className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-between gap-6" />
         </div>
       </section>
     </main>

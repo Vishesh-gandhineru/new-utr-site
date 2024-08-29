@@ -5,6 +5,7 @@ import LoginButton from './LoginButton'
 import Link from 'next/link'
 import useFavProperty from '@/context/useFavProperty'
 import useCompareProperty from '@/context/usePropertyCompare'
+import CurrencyPicker from './CurrencyPicker'
 
 const MainMenu = () => {
   const { favorites } = useFavProperty();
@@ -20,7 +21,10 @@ const MainMenu = () => {
             <Link href="/favorite">Favorites {favCount == 0 ? "" : `(${favCount})`}</Link>
             <Link href='/compare'>Compare {compareCount == 0 ? "" : `(${compareCount})`}</Link>
         </ul>
+        <div className='flex gap-10'>
+        <CurrencyPicker />
         <LoginButton />
+        </div>
     </nav>
   )
 }

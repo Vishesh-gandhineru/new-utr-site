@@ -18,6 +18,10 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        Span: ['var(--font-Span)'],
+        Switzer: ['var(--font-Switzer)'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

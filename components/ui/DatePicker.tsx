@@ -35,23 +35,23 @@ const DateRangePicker: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    // Fetch date range from session storage
-    const storedDateRange = sessionStorage.getItem('dateRange');
-    if (storedDateRange) {
-      setDateRange(JSON.parse(storedDateRange));
-      console.log('Date range fetched from session storage:', storedDateRange);
-    }
-  }, []);
+  // useEffect(() => {
+  //   // Fetch date range from session storage
+  //   const storedDateRange = sessionStorage.getItem('dateRange');
+  //   if (storedDateRange) {
+  //     setDateRange(JSON.parse(storedDateRange));
+  //     console.log('Date range fetched from session storage:', storedDateRange);
+  //   }
+  // }, []);
 
   return (
     <div className="p-4">
       <RangePicker
         onChange={handleDateChange}
-        value={[
-          dateRange.checkin ? dayjs(dateRange.checkin) : null,
-          dateRange.checkout ? dayjs(dateRange.checkout) : null,
-        ]}
+        // value={[
+        //   dateRange.checkin ? dayjs(dateRange.checkin) : null,
+        //   dateRange.checkout ? dayjs(dateRange.checkout) : null,
+        // ]}
         className="w-full"
       />
     </div>

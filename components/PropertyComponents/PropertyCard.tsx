@@ -1,83 +1,123 @@
-"use client"
-import React from 'react'
-import PropertyImageCarousel from './PropertyImageCarousel';
-import { Button, Tooltip } from 'antd';
-import { HeartIcon , Columns3 } from 'lucide-react';
-import useFavProperty from '@/context/useFavProperty';
-import useCompareProperty from '@/context/usePropertyCompare';
-import { cn } from '@/lib/utils';
-import Link from 'next/link';
+"use client";
 
-type PropertyCardProps = {
-    images: { displayPriority: number; url: string; type: string; _id: string }[];
-    name: string;
-    address: string;
-    city: string;
-    state: string;
-    country: string;
-    slug: string;
-    propertyId: string;
-    };
+import React from "react";
+import { Heart, Star, WeatherIcon, CompareIcon } from "../CustomIcons";
+import Image from "next/image";
+import { Tooltip } from "antd";
+import getSymbolFromCurrency from 'currency-symbol-map'
+import { motion } from 'framer-motion';
+import { DotLottieReact, DotLottieReactProps } from '@lottiefiles/dotlottie-react';
 
+interface VillaCardProps {
+  name: string;
+  propertyId: string;
+  city: string;
+  state: string;
+  rating: number;
+  guests: number;
+  rooms: number;
+  baths: number;
+  pricePerNight: number;
+  imageUrl: Array<{ url: string }>;
+  slug: string;
+  currency: string;
+}
 
-const PropertyCard = ({images , name , address , city , state , country , slug, propertyId} : PropertyCardProps) => {
+export default function PropertyCard({
+  name,
+  city,
+  state,
+  rating,
+  guests,
+  rooms,
+  baths,
+  pricePerNight,
+  imageUrl,
+  currency,
+  slug,
+}: VillaCardProps) {
 
-  const { addFavorite, removeFavorite, isFavorite } = useFavProperty();
-  const { addToCompare, removeFromCompare, isInCompare , compareItems } = useCompareProperty();
+  const [dotLottie, setDotLottie] = React.useState(null);
 
-  const isFav = isFavorite(propertyId);
-  const isCompared = isInCompare(propertyId);
-  const handleAddFavorite = () => {
-    if(isFav){
-      removeFavorite(propertyId);
-      return;
-    }
-
-    addFavorite({propertyId , id:propertyId ,images , name , address , city , state , country , slug, column: null});
+  const dotLottieRefCallback = (dotLottie : any) => {
+    setDotLottie(dotLottie);
   };
 
-  const handleAddToCompare = () => {
-    if(isCompared){
-      removeFromCompare(propertyId);
-      return;
-    }
-
-    if (compareItems.length <= 3 ) {
-      addToCompare({propertyId,images , name , address , city , state , country , slug , column: null , id: propertyId});
+  function play(){
+    if(dotLottie){
+      dotLottie.play();
     }
   }
 
-
   return (
-    <div className=' relative rounded-xl overflow-hidden'>
-      <PropertyImageCarousel images={images} />
-      <div className='border-2 rounded-b-xl p-5 space-y-3'>
-        <Link href={`/properties/${slug}`}>
-        <h2>{name}</h2>
-        </Link>
-        <p>Address : {address}</p>
-        <p>City: {city}</p>
-        <p>State : {state}</p>
-        <p>Country : {country}</p>
-        <Button href={`/properties/${slug}`}>Book now</Button>
+    <div>
+      {/* image section  */}
+      <div className="relative">
+        <div className="relative h-[200px] w-full">
+          <Image
+            src={imageUrl[0].url}
+            alt={name}
+            fill
+            className="rounded-[10px] object-cover object-center"
+          />
+           <DotLottieReact
+      src="/lottie/HeartDotLottie.lottie" 
+      dotLottieRefCallback={dotLottieRefCallback}     
+      className="w-full h-full absolute top-0 left-0 pointer-events-none"
+    />
+        </div>
+        <div>
+          <Tooltip title="Save" mouseEnterDelay={0.3} placement="bottom">
+            <button onClick={play} className="glassmorphism absolute right-2 top-2 grid h-[40px] w-[40px] place-content-center rounded-full border-[1px]">
+              <Heart className="h-5 w-full stroke-white" />
+            </button>
+          </Tooltip>
+          <Tooltip title="Weather" mouseEnterDelay={0.3}>
+            <button className="glassmorphism absolute bottom-2 right-2 grid h-[40px] w-[40px] place-content-center rounded-full border-[1px]">
+              <WeatherIcon className="h-5 w-full stroke-white" />
+            </button>
+          </Tooltip>
+        </div>
       </div>
-      <Tooltip title="Favorite">
-      <button className=' absolute top-3 right-3' onClick={handleAddFavorite}>
-     <HeartIcon className={cn('w-8 h-8 stroke-white fill-white' , [
-        isFav ? 'fill-red-500' : ''
-     ])} />
-      </button>
-      </Tooltip>
-      <Tooltip title="Compare">
-      <button className=' absolute top-3 left-3' onClick={handleAddToCompare}>
-      <Columns3 suppressHydrationWarning className={cn('w-8 h-8 stroke-white' , [
-        isCompared ? 'fill-blue-500' : ''
-      ])} />
-      </button>
-
-      </Tooltip>
+      {/* card Content section  */}
+      <div className="my-5">
+        {/* title , location and ratings - flex , justify between */}
+        <div className="flex justify-between">
+          <div>
+            <h3 className="text-xl capitalize text-[#203E3C]">{name}</h3>
+            <h4 className="text-sm capitalize text-[#657C48]">
+              {city}, {state}
+            </h4>
+          </div>
+          <div className="flex items-center justify-center gap-2 font-Switzer text-sm text-[#657C48]">
+            <Star className="h-4 w-4" />
+            {rating}
+          </div>
+        </div>
+        {/* guest , price and compare button */}
+        <div className="mt-3 flex items-center justify-between">
+          {/* guest and price */}
+          <div className="">
+            <h4 className="text-sm text-[#657C48]">
+              {guests} Guests: {rooms} Rooms & {baths} Baths
+            </h4>
+            <div>
+              <h3 className="text-[#203E3C]">
+                {getSymbolFromCurrency(currency)}{pricePerNight} {" "}
+                <span className="text-sm font-normal text-[#657C48]">
+                  /Night + Taxes
+                </span>
+              </h3>
+            </div>
+          </div>
+          {/* compare button */}
+          <Tooltip title="Compare" mouseEnterDelay={0.3}>
+            <button className="rounded-lg border border-[#C2D6A8] p-1">
+              <CompareIcon className="h-8 w-8" />
+            </button>
+          </Tooltip>
+        </div>
+      </div>
     </div>
-  )
+  );
 }
-
-export default PropertyCard

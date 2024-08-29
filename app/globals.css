@@ -77,13 +77,13 @@
     @apply text-base md:text-lg;
   }
   h1 {
-    @apply text-2xl sm:text-3xl md:text-4xl font-bold mb-4;
+    @apply text-2xl sm:text-3xl md:text-4xl font-bold mb-4  tracking-wide font-Switzer;
   }
   h2 {
-    @apply text-xl sm:text-2xl md:text-3xl font-semibold mb-3;
+    @apply text-xl sm:text-2xl md:text-3xl font-semibold mb-3 tracking-wide font-Switzer;
   }
   h3 {
-    @apply text-lg sm:text-xl md:text-2xl font-medium mb-2;
+    @apply text-lg sm:text-xl md:text-xl font-medium tracking-wide font-Switzer;
   }
   p {
     @apply mb-4 leading-relaxed;
@@ -114,4 +114,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.241);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+
+
 }
