@@ -14,7 +14,7 @@ city: string
 state: string
 country: string
 slug: string
-column: number | null
+column?: number | null
 }
 
 // Define the shape of our store
@@ -36,7 +36,7 @@ const useFavProperty = create<FavoriteStore>()(
         favorites: state.favorites.filter((item) => item.propertyId !== itemId) 
       })),
       isFavorite: (itemId) => 
-        get().favorites.some((item) => item.propertyId === itemId),
+        get().favorites.some((item) => item?.propertyId === itemId),
     }),
     {
       name: 'favorite-storage', // name of the item in the storage (must be unique)

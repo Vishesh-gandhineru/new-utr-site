@@ -125,3 +125,17 @@
 
 
 }
+
+
+.slick-dots-bottom li , .slick-dots-bottom  button {
+  width: 6px !important;
+  height: 6px !important;
+}
+
+.slick-dots-bottom .slick-active button {
+  opacity: 1 !important;
+}
+
+.slick-slide div {
+ outline: none !important;
+}

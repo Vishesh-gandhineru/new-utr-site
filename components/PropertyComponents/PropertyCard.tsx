@@ -1,12 +1,17 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Heart, Star, WeatherIcon, CompareIcon } from "../CustomIcons";
 import Image from "next/image";
 import { Tooltip } from "antd";
-import getSymbolFromCurrency from 'currency-symbol-map'
-import { motion } from 'framer-motion';
-import { DotLottieReact, DotLottieReactProps } from '@lottiefiles/dotlottie-react';
+import getSymbolFromCurrency from "currency-symbol-map";
+import { motion } from "framer-motion";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import { Carousel } from "antd";
+import { cn } from "@/lib/utils";
+import useFavProperty from "@/context/useFavProperty";
+import SaveToFav from "./SaveToFav";
+import WeatherButton from "./WeatherButton";
 
 interface VillaCardProps {
   name: string;
@@ -18,9 +23,15 @@ interface VillaCardProps {
   rooms: number;
   baths: number;
   pricePerNight: number;
-  imageUrl: Array<{ url: string }>;
+  imageUrl: Array<{
+    displayPriority: number;
+    url: string;
+    type: string;
+    _id: string;
+  }>;
   slug: string;
   currency: string;
+  property: any;
 }
 
 export default function PropertyCard({
@@ -32,51 +43,58 @@ export default function PropertyCard({
   rooms,
   baths,
   pricePerNight,
+  propertyId,
+  property,
   imageUrl,
   currency,
   slug,
 }: VillaCardProps) {
-
-  const [dotLottie, setDotLottie] = React.useState(null);
-
-  const dotLottieRefCallback = (dotLottie : any) => {
+  const [dotLottie, setDotLottie] = useState(null);
+  const [isHeartClicked, setIsHeartClicked] = useState<boolean>(false);
+  const dotLottieRefCallback = (dotLottie: any) => {
     setDotLottie(dotLottie);
   };
 
-  function play(){
-    if(dotLottie){
+  function play() {
+    if (!isHeartClicked) {
+      //@ts-ignore
       dotLottie.play();
     }
   }
+
+
+
 
   return (
     <div>
       {/* image section  */}
       <div className="relative">
-        <div className="relative h-[200px] w-full">
-          <Image
-            src={imageUrl[0].url}
-            alt={name}
-            fill
-            className="rounded-[10px] object-cover object-center"
-          />
-           <DotLottieReact
-      src="/lottie/HeartDotLottie.lottie" 
-      dotLottieRefCallback={dotLottieRefCallback}     
-      className="w-full h-full absolute top-0 left-0 pointer-events-none"
-    />
-        </div>
+        <Carousel
+          draggable
+          className="overflow-hidden !rounded-[10px] !border-none"
+        >
+          {imageUrl.map((image, index) => {
+            return (
+              <div key={index} className="relative h-[200px] w-full">
+                <Image
+                  src={image.url || "https://placehold.co/600x400"}
+                  alt={name}
+                  fill
+                  className="object-cover object-center"
+                />
+              </div>
+            );
+          })}
+        </Carousel>
+        <DotLottieReact
+          src="/lottie/HeartDotLottie.lottie"
+          dotLottieRefCallback={dotLottieRefCallback}
+          speed={1.5}
+          className="pointer-events-none absolute left-0 top-0 h-full w-full"
+        />
         <div>
-          <Tooltip title="Save" mouseEnterDelay={0.3} placement="bottom">
-            <button onClick={play} className="glassmorphism absolute right-2 top-2 grid h-[40px] w-[40px] place-content-center rounded-full border-[1px]">
-              <Heart className="h-5 w-full stroke-white" />
-            </button>
-          </Tooltip>
-          <Tooltip title="Weather" mouseEnterDelay={0.3}>
-            <button className="glassmorphism absolute bottom-2 right-2 grid h-[40px] w-[40px] place-content-center rounded-full border-[1px]">
-              <WeatherIcon className="h-5 w-full stroke-white" />
-            </button>
-          </Tooltip>
+          <SaveToFav propertyId={propertyId} property={property} play={play} isHeartClicked={isHeartClicked} setIsHeartClicked={setIsHeartClicked} />
+          <WeatherButton />
         </div>
       </div>
       {/* card Content section  */}
@@ -103,7 +121,8 @@ export default function PropertyCard({
             </h4>
             <div>
               <h3 className="text-[#203E3C]">
-                {getSymbolFromCurrency(currency)}{pricePerNight} {" "}
+                {getSymbolFromCurrency(currency)}
+                {pricePerNight}{" "}
                 <span className="text-sm font-normal text-[#657C48]">
                   /Night + Taxes
                 </span>
