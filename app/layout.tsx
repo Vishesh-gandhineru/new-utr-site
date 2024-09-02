@@ -53,7 +53,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${Span.variable} ${Switzer.variable}`}>
+      <body className={`${Span.variable} ${Switzer.variable} bg-white`}>
         <AntdRegistry>
         <GlobalLayout>
           {children}

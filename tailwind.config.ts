@@ -22,7 +22,16 @@ const config = {
         Span: ['var(--font-Span)'],
         Switzer: ['var(--font-Switzer)'],
       },
+      backgroundImage: {
+        HomeHeroBg: "url('/HomeHeroImage.png')",
+      },
       colors: {
+        white : "#FBFAF5",
+        black : "#202020",
+        orange: "#FB5A46",
+        green : "#203E3C",
+        light_green : "#F0F0F0",
+        gray: "#938E7D",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

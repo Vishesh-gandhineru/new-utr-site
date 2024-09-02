@@ -86,7 +86,7 @@
     @apply text-lg sm:text-xl md:text-xl font-medium tracking-wide font-Switzer;
   }
   p {
-    @apply mb-4 leading-relaxed;
+    @apply leading-relaxed font-Switzer;
   }
 }
 
@@ -94,6 +94,22 @@
 @layer components {
 .container {
     @apply max-w-[2500px] w-full mx-auto px-4 mb-8 sm:px-6  lg:px-8 xl:px-12 ;
+  }
+  .filterLabel {
+    color: #202020;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+letter-spacing: 0.28px;
+  }
+  .filterOptions {
+    color: #938E7D;
+font-size: 18px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+letter-spacing: 0.36px;
   }
 }
 
