@@ -45,16 +45,18 @@ const DateRangePicker: React.FC = () => {
   // }, []);
 
   return (
-    <div className="p-4">
+  
       <RangePicker
         onChange={handleDateChange}
+        placeholder={['Check-in', 'Check-out']}
+        
         // value={[
         //   dateRange.checkin ? dayjs(dateRange.checkin) : null,
         //   dateRange.checkout ? dayjs(dateRange.checkout) : null,
         // ]}
-        className="w-full"
+        className="w-full filterOptions !border-none !bg-transparent !p-0 !shadow-none !border-orange dateFilter"
       />
-    </div>
+ 
   );
 };
 

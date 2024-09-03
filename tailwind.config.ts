@@ -30,7 +30,7 @@ const config = {
         black : "#202020",
         orange: "#FB5A46",
         green : "#203E3C",
-        light_green : "#F0F0F0",
+        light_green : "#657C48",
         gray: "#938E7D",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

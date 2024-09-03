@@ -44,7 +44,7 @@ const LoginForm = () => {
 
   return (
     <div>
-      <div className='flex flex-row gap-8'>
+      <div className='flex flex-col gap-2'>
         <PhoneInput setPhoneNumber={setPhoneNumber} setCountryCode={setCountryCode} isDisable={isFormSubmitted}/>
         <Button onClick={handleLogin} disabled={showLogin}>Login</Button>
       </div>

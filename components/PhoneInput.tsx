@@ -20,7 +20,7 @@ type PhoneInputProps = {
 };
 
 const PhoneInput = ({setPhoneNumber , setCountryCode , isDisable} : PhoneInputProps) => {
-  const [open, setOpen] = useState<SetStateAction<boolean>>(false);
+  const [open, setOpen] = useState<boolean | undefined>(false);
   const [value, setValue] = useState<SetStateAction<string | undefined>>("+91");
 
   
@@ -29,7 +29,7 @@ const PhoneInput = ({setPhoneNumber , setCountryCode , isDisable} : PhoneInputPr
   const frameworks = CountryCode;
 
   const content = (
-    <div className="h-fit">
+    <div className="h-full">
       <Command>
         <CommandList>
           <ScrollArea className="h-72">
@@ -62,8 +62,8 @@ const PhoneInput = ({setPhoneNumber , setCountryCode , isDisable} : PhoneInputPr
   );
 
   return (
-    <div className="flex max-w-fit">
-      <Popover content={content} trigger="click">
+    <div className="flex max-w-full">
+      <Popover content={content} trigger="click" open={open} arrow={false} onOpenChange={setOpen}>
         <button className="bg-white border-[1px] rounded-none border-[#d9d9d9] border-r-0 rounded-l-[5px]  px-3">
           {" "}
           {value

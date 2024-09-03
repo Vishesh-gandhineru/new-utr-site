@@ -58,9 +58,10 @@ function DebounceSelect<
 
   return (
     <Select
+    suffixIcon={" "}
+    className="font-Switzer"
     showSearch
-    removeIcon
-    suffixIcon={<Search className="w-4 h-4" />}
+    removeIcon 
       labelInValue
       filterOption={false}
       onSearch={debounceFetcher}
@@ -120,12 +121,12 @@ const App: React.FC = () => {
     <DebounceSelect
     showSearch
       value={value}
-      placeholder="search Location"
+      placeholder={<p className="filterOptions">Search Destinations</p>}
       fetchOptions={fetchLocationList}
       onChange={(newValue) => {
         setValue(newValue as LocationValue[]);
       }}
-      className="w-[300px]"
+      className="w-[300px] LocationSearch text-[18px] font-Switzer"
     />
   );
 };

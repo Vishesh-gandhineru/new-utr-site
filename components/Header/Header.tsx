@@ -1,18 +1,13 @@
-"use client"
 
 import React from 'react'
 import LoginButton from './LoginButton'
 import Link from 'next/link'
-import useFavProperty from '@/context/useFavProperty'
-import useCompareProperty from '@/context/usePropertyCompare'
-import CurrencyPicker from './CurrencyPicker'
+
 import Image from 'next/image'
+import LoginCard from '../LoginComponents/LoginCard'
 
 const MainMenu = () => {
-  const { favorites } = useFavProperty();
-  const {compareItems} = useCompareProperty();
-  const favCount = favorites.length;
-  const compareCount = compareItems.length;
+  
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex items-center justify-between h-16">
@@ -28,9 +23,8 @@ const MainMenu = () => {
           <Link href="/about" className='hover:text-orange' >About Us</Link>
           <Link href="/list" className='hover:text-orange'>List a Property</Link>
         <div className="hidden md:block">
-          <Link href="/login" className="inline-flex items-center justify-center px-6 py-2 border rounded-full border-orange text-orange  hover:bg-orange hover:text-white transition-colors duration-300">
-            Log in / Sign up
-          </Link>
+          <LoginButton />
+         
         </div>
         </nav>
         <div className="md:hidden">
