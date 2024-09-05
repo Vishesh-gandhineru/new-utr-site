@@ -105,6 +105,7 @@ const PropertyBookingDatePicker = ({className, dateRange , setDateRange , Proper
         dateRange.checkin ? dayjs(dateRange.checkin) : null,
         dateRange.checkout ? dayjs(dateRange.checkout) : null,
       ]}
+      placeholder={['Check-in', 'Check-out']}
       className={className}
       onChange={handleDateChange}
       disabledDate={disabledDate}

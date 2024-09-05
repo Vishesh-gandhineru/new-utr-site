@@ -77,15 +77,18 @@ const BookingForm = ({ propertyId, PropertySlug }: BookingFormProps) => {
   
 
   return (
-    <div className="space-y-5 rounded-2xl border-[1px] border-primary p-6">
+    <div className="rounded-2xl border-[1px] border-green p-8">
+      <div>
+        <h2 className="font-Switzer font-semibold">$1000 <span className="text-[10px] font-Switzer font-normal text-light_green">/Night + Taxs</span></h2>
+      </div>
       <PropertyBookingDatePicker
-        className="w-full"
+        className="w-full !border-gray !bg-transparent !shadow-none"
         dateRange={dateRange}
         setDateRange={setDateRange}
         PropertySlug={PropertySlug}
       />
       <GuestSelectionPopover
-        className="w-full"
+        className="w-full !border-none !bg-transparent !shadow-none"
         guestCounts={guestCounts}
         setGuestCounts={setGuestCounts}
       />

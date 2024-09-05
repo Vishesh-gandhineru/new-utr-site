@@ -11,12 +11,12 @@ export default function FavoritesPage () {
     <main>
       <section className="container">
         <div className="grid grid-cols-4 gap-5">
-        {favorites.map((property: any) => {
+        {/* {favorites.map((property: any) => {
           return (
             <PropertyCard
               key={property.propertyId}
               propertyId={property.propertyId}
-              images={property.images}
+              imageUrl={property.images}
               name={property.name}
               city={property.city}
               address={property.address}
@@ -25,7 +25,7 @@ export default function FavoritesPage () {
               slug={property.slug}
             />
           );
-        })}
+        })} */}
         </div>
       </section>
     </main>

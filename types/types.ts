@@ -56,3 +56,14 @@ export type BookingCardType = {
     total: number;
   };
 };
+
+export type LocationType = {
+  key: string;
+  label: string;
+  value: string;
+  state: string;
+  city: string;
+  PropertyName: string;
+  PropertyAddress: string;
+  PropertySlug : string;
+}

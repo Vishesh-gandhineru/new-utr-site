@@ -1,8 +1,7 @@
-"use client"
-import React, { use, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DatePicker } from 'antd';
-import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
+import { RangePickerProps } from 'antd/es/date-picker';
 
 const { RangePicker } = DatePicker;
 
@@ -13,50 +12,41 @@ interface DateRange {
 
 const DateRangePicker: React.FC = () => {
   const [dateRange, setDateRange] = useState<DateRange>({ checkin: null, checkout: null });
+
+  useEffect(() => {
+    const storedDates = sessionStorage.getItem('dateRange');
+    if (storedDates) {
+      setDateRange(JSON.parse(storedDates));
+    }
+  }, []);
+
   const handleDateChange = (
-    dates: [Dayjs | null, Dayjs | null] | null,
+    dates: [dayjs.Dayjs | null, dayjs.Dayjs | null] | null,
     dateStrings: [string, string]
   ) => {
     if (dates) {
       const [checkin, checkout] = dateStrings;
-      const dateRange: DateRange = {
-        checkin,
-        checkout
-      };
-      
-      // Update session storage
-      sessionStorage.setItem('dateRange', JSON.stringify(dateRange));
-      
-      console.log('Date range updated in session storage:', dateRange);
+      const newDateRange: DateRange = { checkin, checkout };
+      setDateRange(newDateRange);
+      sessionStorage.setItem('dateRange', JSON.stringify(newDateRange));
     } else {
-      // Clear session storage if no date is selected
+      setDateRange({ checkin: null, checkout: null });
       sessionStorage.removeItem('dateRange');
-      console.log('Date range cleared from session storage');
     }
   };
 
-  // useEffect(() => {
-  //   // Fetch date range from session storage
-  //   const storedDateRange = sessionStorage.getItem('dateRange');
-  //   if (storedDateRange) {
-  //     setDateRange(JSON.parse(storedDateRange));
-  //     console.log('Date range fetched from session storage:', storedDateRange);
-  //   }
-  // }, []);
+  const disabledDate: RangePickerProps['disabledDate'] = (current) => {
+    return current && current < dayjs().startOf('day');
+  };
 
   return (
-  
-      <RangePicker
-        onChange={handleDateChange}
-        placeholder={['Check-in', 'Check-out']}
-        
-        // value={[
-        //   dateRange.checkin ? dayjs(dateRange.checkin) : null,
-        //   dateRange.checkout ? dayjs(dateRange.checkout) : null,
-        // ]}
-        className="w-full filterOptions !border-none !bg-transparent !p-0 !shadow-none !border-orange dateFilter"
-      />
- 
+    <RangePicker
+      onChange={handleDateChange}
+      placeholder={['Check-in', 'Check-out']}
+      disabledDate={disabledDate}
+      value={dateRange.checkin && dateRange.checkout ? [dayjs(dateRange.checkin), dayjs(dateRange.checkout)] : null}
+      className="w-full filterOptions !border-none !bg-transparent !p-0 !shadow-none border-orange dateFilter"
+    />
   );
 };
 
