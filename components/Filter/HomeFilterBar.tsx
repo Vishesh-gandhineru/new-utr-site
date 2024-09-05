@@ -49,7 +49,7 @@ const HomeFilterBar = () => {
           <p className="filterLabel">Guests</p>
           <GuestSelectionPopover className="w-full !border-none !bg-transparent " guestCounts={guestCounts} setGuestCounts={setGuestCounts}/>
         </div>
-        <Link href={storedLocation?.PropertySlug ? `/properties/${storedLocation.PropertySlug}` : `/properties/location=${storedLocation?.value}`} className="bg-orange p-3 rounded-full transition-all duration-200 border-none w-10 h-10 grid place-content-center hover:scale-110">
+        <Link href={storedLocation?.PropertySlug ? `/properties/${storedLocation.PropertySlug}` : `/properties?location=${storedLocation?.value}`} className="bg-orange p-3 rounded-full transition-all duration-200 border-none w-10 h-10 grid place-content-center hover:scale-110">
          <Arrow className="w-4 h-4 stroke-white"/>
         </Link>
       </div>
