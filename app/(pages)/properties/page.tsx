@@ -11,7 +11,7 @@ const PropertyListingPage = async () => {
           {/* Lets create a copy of below div using array method */}
           {Array(10).fill(0).map((_, index) => {
             return (
-              <div className="text-sm text-light_green flex flex-col items-center gap-2">
+              <div key={index} className="text-sm text-light_green flex flex-col items-center gap-2">
               <div className="w-10 h-10 rounded-full bg-gray"/>
               <span>Amazing Views</span>
             </div>
