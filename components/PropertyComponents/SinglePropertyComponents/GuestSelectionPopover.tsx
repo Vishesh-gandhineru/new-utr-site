@@ -112,8 +112,9 @@ const GuestSelectionPopover: React.FC<GuestSelectionPopoverProps> = ({
       title="Select Guests"
       trigger="click"
       placement="bottom"
+      className='!w-full'
     >
-      <Button className={cn("w-full !flex !justify-start !items-center !text-[18px]  px-2 py-2 border border-gray-300 rounded-md !text-start !p-0", className , [
+      <Button className={cn("w-full !flex !justify-start !items-center !text-[18px] !font-Switzer  px-2 py-2 border border-gray-300 rounded-md !text-start !p-0", className , [
         guestCounts.adults > 0 || guestCounts.children > 0 || guestCounts.infants > 0 || guestCounts.pets > 0 ? '!text-black' : '!text-gray'
       ])}>
         <span>{isMounted ? getGuestSummary() : 'Add Guest'}</span>

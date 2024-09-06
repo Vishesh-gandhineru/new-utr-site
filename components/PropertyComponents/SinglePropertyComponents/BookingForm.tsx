@@ -73,27 +73,34 @@ const BookingForm = ({ propertyId, PropertySlug }: BookingFormProps) => {
     }
   };
 
-  console.log(QuotationData);
-  
 
+  
   return (
-    <div className="rounded-2xl border-[1px] border-green p-8">
+    <div className="rounded-2xl border-[1px] border-green p-8 space-y-4">
       <div>
-        <h2 className="font-Switzer font-semibold">$1000 <span className="text-[10px] font-Switzer font-normal text-light_green">/Night + Taxs</span></h2>
+        <h2 className="font-Switzer font-semibold">₹1000 <span className="text-[10px] font-Switzer font-normal text-light_green">/Night + Taxs</span></h2>
       </div>
       <PropertyBookingDatePicker
-        className="w-full !border-gray !bg-transparent !shadow-none"
+        className="w-full !border-gray !bg-transparent !shadow-none !text-[18px] !px-5 !py-3"
         dateRange={dateRange}
         setDateRange={setDateRange}
         PropertySlug={PropertySlug}
       />
       <GuestSelectionPopover
-        className="w-full !border-none !bg-transparent !shadow-none"
+        className="w-full !border-gray !px-5 !py-5 !bg-transparent !shadow-none"
         guestCounts={guestCounts}
         setGuestCounts={setGuestCounts}
       />
+      <div className="border border-gray p-5 rounded-lg flex  justify-between items-center">
+        <div className=" space-y-2">
+        <p className="filterLabel">Apply & save $6,000</p>
+        <h3 className="filterOptions">DIWALIFIREWORKS</h3>
+        </div>
+        <button className="text-sm underline font-Switzer font-medium">Apply</button>
+      </div>
+      <button className="text-[12px] underline text-light_green w-full text-center">See more coupons & offers</button>
       <button
-        className="relative w-full rounded-lg bg-primary p-2 text-sm text-white"
+        className="relative w-full rounded-[20px] bg-green  text-xl text-white font-Switzer font-semibold capitalize tracking-wider p-6"
         onClick={handleCheckAvailability}
       >
         Check Availability{" "}

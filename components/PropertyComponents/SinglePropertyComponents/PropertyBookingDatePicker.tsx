@@ -6,6 +6,7 @@ import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import { getPropertyCalendar } from '@/serverAction/PropertiesAPI';
 
+
 const { RangePicker } = DatePicker;
 
 interface DateRange {
@@ -106,7 +107,8 @@ const PropertyBookingDatePicker = ({className, dateRange , setDateRange , Proper
         dateRange.checkout ? dayjs(dateRange.checkout) : null,
       ]}
       placeholder={['Check-in', 'Check-out']}
-      className={className}
+      separator={<div className='w-[1px] h-8 bg-gray mx-3' />}
+      className={`filterOptions !bg-transparent !shadow-none  dateFilter ${className}`}
       onChange={handleDateChange}
       disabledDate={disabledDate}
       renderExtraFooter={() => "Select your check-in and check-out dates"}

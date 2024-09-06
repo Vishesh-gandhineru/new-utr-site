@@ -1,17 +1,17 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { Heart, Star, WeatherIcon, CompareIcon } from "../CustomIcons";
+import React, {  useState } from "react";
+import { Star, CompareIcon } from "../CustomIcons";
 import Image from "next/image";
 import { Tooltip } from "antd";
 import getSymbolFromCurrency from "currency-symbol-map";
-import { motion } from "framer-motion";
+
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { Carousel } from "antd";
-import { cn } from "@/lib/utils";
-import useFavProperty from "@/context/useFavProperty";
+
 import SaveToFav from "./SaveToFav";
 import WeatherButton from "./WeatherButton";
+import Link from "next/link";
 
 interface VillaCardProps {
   name: string;
@@ -81,6 +81,8 @@ export default function PropertyCard({
                   alt={name}
                   fill
                   className="object-cover object-center"
+                  placeholder="blur"
+                  blurDataURL="/blurImage.webp"
                 />
               </div>
             );
@@ -102,7 +104,9 @@ export default function PropertyCard({
         {/* title , location and ratings - flex , justify between */}
         <div className="flex justify-between">
           <div>
+            <Link href={`properties/${slug}`}>
             <h3 className="text-xl capitalize text-[#203E3C]">{name}</h3>
+            </Link>
             <h4 className="text-sm capitalize text-[#657C48]">
               {city}, {state}
             </h4>

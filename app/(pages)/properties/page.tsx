@@ -6,29 +6,32 @@ import { getProperties } from "@/serverAction/PropertiesAPI";
 const PropertyListingPage = async () => {
   const getProperty = await getProperties({limit:5});
   return (
-    <div className="min-h-screen bg-gray-100">
-      <header className="bg-white shadow">
-        <div className="mx-auto px-4 py-6 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900">
-            Property Listings
-          </h1>
+      <div className="">
+        <div className="mb-8 border-t border-b border-gray py-3 flex justify-evenly">
+          {/* Lets create a copy of below div using array method */}
+          {Array(10).fill(0).map((_, index) => {
+            return (
+              <div className="text-sm text-light_green flex flex-col items-center gap-2">
+              <div className="w-10 h-10 rounded-full bg-gray"/>
+              <span>Amazing Views</span>
+            </div>
+            )
+          })}         
+         
         </div>
-      </header>
-      <main className="mx-auto py-6 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row">
-          <div className="mb-6 w-full border-[1px] p-5 lg:mb-0 lg:w-1/6">
-            <h1>Filter componet</h1>
+          <section className="mb-6 w-full border-[1px] p-5 lg:mb-0 lg:w-1/6">
             <PropertyFilterComponent />
-          </div>
-          <div className="w-full lg:w-full lg:pl-6">
+          </section>
+          <section className="w-full lg:w-full lg:pl-6">
             <PropertyGrid className="grid justify-between gap-5 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3" />
-          </div>
+          </section>
           <div>
             {/* <PropertyMap properties={getProperty.properties} /> */}
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+
   );
 };
 

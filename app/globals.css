@@ -77,10 +77,10 @@
     @apply text-base md:text-lg;
   }
   h1 {
-    @apply text-2xl sm:text-3xl md:text-4xl font-bold mb-4  tracking-wide font-Switzer;
+    @apply text-2xl sm:text-3xl md:text-4xl font-bold  tracking-wide font-Switzer;
   }
   h2 {
-    @apply text-xl sm:text-2xl md:text-3xl font-normal mb-3 tracking-wide font-Span text-black;
+    @apply text-xl sm:text-2xl md:text-3xl font-normal  tracking-wide font-Span text-black;
   }
   h3 {
     @apply text-lg sm:text-xl md:text-xl font-medium tracking-wide font-Switzer;
@@ -93,7 +93,7 @@
 
 @layer components {
 .container {
-    @apply max-w-[2500px] w-full mx-auto px-4 mb-8 sm:px-6  lg:px-8 xl:px-12 ;
+    @apply max-w-[1875px] w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 ;
   }
   .filterLabel {
     color: #202020;
@@ -111,6 +111,10 @@ font-weight: 500;
 line-height: normal;
 letter-spacing: 0.36px;
   }
+}
+
+body {
+  font-family: var(--font-Switzer);
 }
 
 
