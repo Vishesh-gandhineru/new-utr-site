@@ -77,10 +77,10 @@
     @apply text-base md:text-lg;
   }
   h1 {
-    @apply text-2xl sm:text-3xl md:text-4xl font-bold  tracking-wide font-Switzer;
+    @apply text-2xl sm:text-3xl md:text-4xl xl:text-6xl xl:leading-[70px]  font-bold  tracking-wide font-Switzer;
   }
   h2 {
-    @apply text-xl sm:text-2xl md:text-3xl font-normal  tracking-wide font-Span text-black;
+    @apply text-[26px] sm:text-2xl md:text-3xl font-normal  tracking-wide font-Span text-black;
   }
   h3 {
     @apply text-lg sm:text-xl md:text-xl font-medium tracking-wide font-Switzer;
@@ -88,6 +88,7 @@
   p {
     @apply leading-relaxed font-Switzer;
   }
+
 }
 
 
@@ -95,22 +96,38 @@
 .container {
     @apply max-w-[1875px] w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 ;
   }
-  .filterLabel {
-    color: #202020;
+}
+.filterLabel {
+  color: #202020;
 font-size: 14px;
 font-style: normal;
 font-weight: 400;
 line-height: normal;
 letter-spacing: 0.28px;
+}
+
+
+.filterOptions {
+  color: #938E7D;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.36px;
+}
+@media (max-width: 768px) {
+  .filterLabel {
+    display: none;
   }
   .filterOptions {
     color: #938E7D;
-font-size: 18px;
-font-style: normal;
-font-weight: 500;
-line-height: normal;
-letter-spacing: 0.36px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.36px;
   }
+  
 }
 
 body {
@@ -178,4 +195,20 @@ body {
 
 .dateFilter input {
   font-size: 18px !important;
+}
+.footerAccordion .ant-collapse-header {
+  padding: 0 !important;
+  padding-top:15px !important ;
+  padding-bottom: 15px !important;
+}
+
+.footerAccordion .ant-collapse-header .ant-collapse-header-text {
+  font-family: var(--font-Switzer);
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: #203E3C;
+}
+
+.footerAccordion .ant-collapse-content-box {
+  padding: 0px 0 20px 0px  !important;
 }

@@ -66,16 +66,16 @@ export default function PropertyCard({
 
 
   return (
-    <div>
+    <div className="w-full">
       {/* image section  */}
       <div className="relative">
         <Carousel
           draggable
-          className="overflow-hidden !rounded-[10px] !border-none"
+          className="overflow-hidden !rounded-[10px] !border-none w-full max-w-[100vw]"
         >
           {imageUrl.map((image, index) => {
             return (
-              <div key={index} className="relative h-[200px] w-full">
+              <div key={index} className="relative h-[200px] w-full !block">
                 <Image
                   src={image.url || "https://placehold.co/600x400"}
                   alt={name}

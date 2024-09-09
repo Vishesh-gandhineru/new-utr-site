@@ -33,10 +33,10 @@ const defaultGuestCounts: GuestCounts = {
 const HomeFilterBar = () => {
  const [guestCounts, setGuestCounts] = useState<GuestCounts>(defaultGuestCounts);
  const {storedLocation}  = useLocationStore();
- console.log(storedLocation)
+ 
 
  return (  
-      <div className="w-[1100px]  bg-white rounded-2xl shadow-lg flex text-nowrap  items-center divide-x-[1px] divide-[#938E7D] pr-5">
+      <div className="w-full lg:w-[1100px]  bg-white rounded-2xl shadow-lg flex text-nowrap  items-center divide-x-[1px] divide-[#938E7D] pr-5">
         <div className="w-[40%]  px-8 py-4">
           <p className="filterLabel">Where</p>
           <LocationSearch/>

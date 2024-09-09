@@ -1,5 +1,6 @@
 import React from 'react';
 import MainMenu from './Header/Header';
+import Footer from './Footer/Footer';
 
 type LayoutProps = {
     children: React.ReactNode;
@@ -20,12 +21,8 @@ const GlobalLayout = ({ children } : LayoutProps) => {
         </section>
       </main>
 
-      <footer className="bg-gray-200">
-        <div className="conatiner">
-          <p className="text-center text-sm sm:text-base">
-            © {new Date().getFullYear()} Under The Root Stays. All rights reserved.
-          </p>
-        </div>
+      <footer className="mt-10">
+       <Footer />
       </footer>
     </div>
   );

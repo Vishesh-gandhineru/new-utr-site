@@ -17,6 +17,10 @@ const Switzer = localFont({
       weight: "500",
     },
     {
+      path: "/fonts/Switzer-Bold.woff2",
+      weight: "800",
+    },
+    {
       path: "/fonts/Switzer-Regular.woff2",
       weight: "400",
     },

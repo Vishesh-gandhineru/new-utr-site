@@ -8,6 +8,7 @@ import { locations } from "@/utils/DefaultLocation";
 import { getPropertiesByLocation } from "@/serverAction/PropertiesAPI";
 import { Search } from "lucide-react";
 import { useLocationStore } from "@/context/useFilterStore";
+import useWindowSize from "@/hooks/useWindowsize";
 
 
 // Create a context for options
@@ -161,7 +162,7 @@ const App: React.FC = () => {
   // const [value, setValue] = useState<LocationValue[]>([]);
   const {storedLocation , setStoredLocation} = useLocationStore();
   const {options} = useOptions();
-  
+  const {width} = useWindowSize();
   useEffect(() => {   
     const storedLocation = sessionStorage.getItem("location");
     if (storedLocation) {
@@ -176,7 +177,7 @@ const App: React.FC = () => {
       <DebounceSelect
         showSearch
         value={storedLocation}
-        placeholder={<p className="filterOptions">Search Destinations</p>}
+        placeholder={<p className="filterOptions">{width > 768 ? "Search Destinations"  : "Place" }</p>}
         fetchOptions={fetchLocationList}
         onChange={(newValue: any) => {
           const fullValue = options.find(option => option.value === newValue.value);
