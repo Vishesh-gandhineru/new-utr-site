@@ -23,7 +23,7 @@ const config = {
         Switzer: ['var(--font-Switzer)'],
       },
       backgroundImage: {
-        HomeHeroBg: "url('/HomeHeroImage.png')",
+        HomeHeroBg: "url('/HomeHeroImage.webp')",
       },
       colors: {
         white : "#FBFAF5",

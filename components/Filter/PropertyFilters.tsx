@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Form, InputNumber, Slider, Select, Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
+import { Star } from 'lucide-react';
 
 const { Option } = Select;
 
@@ -26,114 +27,57 @@ interface Filters {
   amenities: string[];
 }
 
-const PropertyFilterComponent: React.FC = () => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const [form] = Form.useForm<Filters>();
+const FilerLableCss = "text-base font-[600] text-gray-800";
+const RatingCss = "flex items-center gap-1 border border-gray py-1 px-2 rounded-full text-sm";
 
-  const [filters, setFilters] = useState<Filters>({
-    rate: { minAmount: 0, maxAmount: 1000 },
-    bookingLimit: {
-      minOccupancy: 1,
-      maxOccupancy: 10,
-      maxPetAllowed: 0,
-      maxAdultsAllowed: 4,
-      maxChildrenAllowed: 4,
-    },
-    amenities: [],
-  });
-
-  useEffect(() => {
-    const updatedFilters: Filters = { ...filters };
-
-    searchParams.forEach((value, key) => {
-      if (key === 'amenities') {
-        updatedFilters.amenities = value.split(',');
-      } else if (key.startsWith('rate.') || key.startsWith('bookingLimit.')) {
-        const [category, subKey] = key.split('.') as [keyof Filters, string];
-        if (category === 'rate' || category === 'bookingLimit') {
-          (updatedFilters[category] as any)[subKey] = Number(value);
-        }
-      }
-    });
-
-    setFilters(updatedFilters);
-    form.setFieldsValue(updatedFilters);
-  }, [searchParams]);
-
-  const updateURL = (values: Filters) => {
-    const params = new URLSearchParams();
-
-    Object.entries(values).forEach(([key, value]) => {
-      if (key === 'amenities' && value.length > 0) {
-        params.append(key, value.join(','));
-      } else if (typeof value === 'object') {
-        Object.entries(value).forEach(([subKey, subValue]) => {
-          if (subValue !== undefined && subValue !== null) {
-            params.append(`${key}.${subKey}`, subValue.toString());
-          }
-        });
-      }
-    });
-
-    router.push(`?${params.toString()}`, { scroll: false });
-  };
-
-  const onFinish = (values: Filters) => {
-    setFilters(values);
-    updateURL(values);
-  };
-
-  const amenityOptions: string[] = [
-    'Wi-Fi', 'Pool', 'Gym', 'Parking', 'Air Conditioning',
-    'TV', 'Kitchen', 'Washer', 'Dryer', 'Heating'
-  ];
-
+const PropertyFilterComponent = () => {
   return (
-    <Form<Filters> form={form} onFinish={onFinish} layout="vertical" initialValues={filters}>
-      <Form.Item label="Rate" style={{ marginBottom: 0 }}>
-        <Form.Item name={['rate', 'minAmount']} style={{ display: 'inline-block', width: 'calc(50% - 8px)' }}>
-          <InputNumber min={0} max={10000} placeholder="Min Amount" />
-        </Form.Item>
-        <Form.Item name={['rate', 'maxAmount']} style={{ display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 8px' }}>
-          <InputNumber min={0} max={10000} placeholder="Max Amount" />
-        </Form.Item>
-      </Form.Item>
-
-      <Form.Item name={['bookingLimit', 'minOccupancy']} label="Min Occupancy">
-        <Slider min={1} max={20} />
-      </Form.Item>
-
-      <Form.Item name={['bookingLimit', 'maxOccupancy']} label="Max Occupancy">
-        <Slider min={1} max={20} />
-      </Form.Item>
-
-      <Form.Item name={['bookingLimit', 'maxPetAllowed']} label="Max Pets Allowed">
-        <Slider min={0} max={5} />
-      </Form.Item>
-
-      <Form.Item name={['bookingLimit', 'maxAdultsAllowed']} label="Max Adults Allowed">
-        <Slider min={1} max={10} />
-      </Form.Item>
-
-      <Form.Item name={['bookingLimit', 'maxChildrenAllowed']} label="Max Children Allowed">
-        <Slider min={0} max={10} />
-      </Form.Item>
-
-      <Form.Item name="amenities" label="Amenities">
-        <Select mode="multiple" placeholder="Select amenities">
-          {amenityOptions.map(amenity => (
-            <Option key={amenity} value={amenity}>{amenity}</Option>
-          ))}
+  <div className='space-y-8'>
+  {/* map */}
+    <div className='border border-black rounded-xl h-20 w-full grid place-content-center'>
+      MAP
+    </div>
+    <div>
+      <h4 className={FilerLableCss}>Your budget (per night)</h4>
+      <p className='text-gray mt-1'>₹5,000 - ₹2,00,000</p>
+      <Slider defaultValue={10000} min={5000} max={20000} className='PriceSliderFilter !mt-5' />
+    </div>
+    <div className='space-y-3'>
+      <h4 className={FilerLableCss}>Rating</h4>
+      <div className='flex gap-2 text-gray'>
+        <button className={RatingCss} value={1}><Star className='w-3 h-3 fill-gray stroke-gray' /> 1</button>
+        <button className={RatingCss} value={2}><Star className='w-3 h-3 fill-gray stroke-gray' /> 2</button>
+        <button className={RatingCss} value={3}><Star className='w-3 h-3 fill-gray stroke-gray' /> 3</button>
+        <button className={RatingCss} value={4}><Star className='w-3 h-3 fill-gray stroke-gray' /> 4</button>
+        <button className={RatingCss} value={5}><Star className='w-3 h-3 fill-gray stroke-gray' /> 5</button>
+      </div>
+    </div>
+    <div className='space-y-3'>
+      <h4 className={FilerLableCss}>Amenities</h4>
+      <div>     
+        <Select mode="multiple" className='w-full' placeholder="Select Amenities" notFoundContent={<p>No Amenities Found</p>}>
+          <Option value="1">Swimming Pool</Option>
+          <Option value="2">Gym</Option>
+          <Option value="3">Spa</Option>
+          <Option value="4">Free WiFi</Option>
+          <Option value="5">Free Parking</Option>
+          <Option value="6">Restaurant</Option>
+          <Option value="7">Bar</Option>
+          <Option value="8">Room Service</Option>
         </Select>
-      </Form.Item>
 
-      <Form.Item>
-        <Button type="primary" htmlType="submit" icon={<SearchOutlined />}>
-          Apply Filters
-        </Button>
-      </Form.Item>
-    </Form>
+      </div>
+    </div>
+    <div>
+      <h4 className={FilerLableCss}>Traveler Experience</h4>
+    </div>
+    <div>
+      <h4 className={FilerLableCss}>Landmark & Activities</h4>
+    </div>
+    <div>
+      <h4 className={FilerLableCss}>Meals</h4>
+    </div>
+  </div>
   );
 };
 

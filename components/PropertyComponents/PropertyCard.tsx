@@ -1,6 +1,6 @@
 "use client";
 
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { Star, CompareIcon } from "../CustomIcons";
 import Image from "next/image";
 import { Tooltip } from "antd";
@@ -14,41 +14,21 @@ import WeatherButton from "./WeatherButton";
 import Link from "next/link";
 
 interface VillaCardProps {
-  name: string;
-  propertyId: string;
-  city: string;
-  state: string;
-  rating: number;
-  guests: number;
-  rooms: number;
-  baths: number;
-  pricePerNight: number;
-  imageUrl: Array<{
-    displayPriority: number;
-    url: string;
-    type: string;
-    _id: string;
-  }>;
-  slug: string;
-  currency: string;
   property: any;
 }
 
-export default function PropertyCard({
-  name,
-  city,
-  state,
-  rating,
-  guests,
-  rooms,
-  baths,
-  pricePerNight,
-  propertyId,
-  property,
-  imageUrl,
-  currency,
-  slug,
-}: VillaCardProps) {
+const dotLottieSource = "/lottie/HeartDotLottie.lottie";
+
+export default function PropertyCard({ property }: VillaCardProps) {
+  const { slug, images, propertyId, general } = property;
+  const { name, city, address, state, country, maxOccupancy } = general;
+  const { baseAmount, currency } = property.rates[0] || {
+    baseAmount: 0,
+    Currency: "USD",
+  };
+
+
+
   const [dotLottie, setDotLottie] = useState(null);
   const [isHeartClicked, setIsHeartClicked] = useState<boolean>(false);
   const dotLottieRefCallback = (dotLottie: any) => {
@@ -62,24 +42,24 @@ export default function PropertyCard({
     }
   }
 
-
-
-
   return (
     <div className="w-full">
       {/* image section  */}
       <div className="relative">
         <Carousel
           draggable
-          className="overflow-hidden !rounded-[10px] !border-none w-full max-w-[100vw]"
+          className="w-full max-w-[100vw] overflow-hidden !rounded-[10px] !border-none PropertyImageSlider"
         >
-          {imageUrl.map((image, index) => {
+          {images.map((image: any, index: number) => {
+              
             return (
-              <div key={index} className="relative h-[200px] w-full !block">
+              <div key={index} className="relative !block h-[200px] w-full">
                 <Image
                   src={image.url || "https://placehold.co/600x400"}
                   alt={name}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  quality={100}
                   className="object-cover object-center"
                   placeholder="blur"
                   blurDataURL="/blurImage.webp"
@@ -89,13 +69,19 @@ export default function PropertyCard({
           })}
         </Carousel>
         <DotLottieReact
-          src="/lottie/HeartDotLottie.lottie"
+          src={dotLottieSource}
           dotLottieRefCallback={dotLottieRefCallback}
           speed={1.5}
           className="pointer-events-none absolute left-0 top-0 h-full w-full"
         />
         <div>
-          <SaveToFav propertyId={propertyId} property={property} play={play} isHeartClicked={isHeartClicked} setIsHeartClicked={setIsHeartClicked} />
+          <SaveToFav
+            propertyId={propertyId}
+            property={property}
+            play={play}
+            isHeartClicked={isHeartClicked}
+            setIsHeartClicked={setIsHeartClicked}
+          />
           <WeatherButton />
         </div>
       </div>
@@ -105,7 +91,7 @@ export default function PropertyCard({
         <div className="flex justify-between">
           <div>
             <Link href={`properties/${slug}`}>
-            <h3 className="text-xl capitalize text-[#203E3C]">{name}</h3>
+              <h3 className="text-xl capitalize text-[#203E3C]">{name}</h3>
             </Link>
             <h4 className="text-sm capitalize text-[#657C48]">
               {city}, {state}
@@ -113,7 +99,7 @@ export default function PropertyCard({
           </div>
           <div className="flex items-center justify-center gap-2 font-Switzer text-sm text-[#657C48]">
             <Star className="h-4 w-4" />
-            {rating}
+            {baseAmount}
           </div>
         </div>
         {/* guest , price and compare button */}
@@ -121,12 +107,12 @@ export default function PropertyCard({
           {/* guest and price */}
           <div className="">
             <h4 className="text-sm text-[#657C48]">
-              {guests} Guests: {rooms} Rooms & {baths} Baths
+              {maxOccupancy} Guests: 12 Rooms & 5 Baths
             </h4>
             <div>
               <h3 className="text-[#203E3C]">
                 {getSymbolFromCurrency(currency)}
-                {pricePerNight}{" "}
+                {baseAmount}{" "}
                 <span className="text-sm font-normal text-[#657C48]">
                   /Night + Taxes
                 </span>

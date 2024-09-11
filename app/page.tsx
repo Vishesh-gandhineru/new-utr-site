@@ -5,11 +5,13 @@ import MainMenu from "@/components/Header/Header";
 import Signupform from "@/components/LoginComponents/signupForm";
 import { getProperties } from "@/serverAction/PropertiesAPI";
 import PropertyGrid from "@/components/PropertyComponents/PropertyGrid";
+import PropertySlider from "@/components/PropertyComponents/PropertySlider";
+import Faqs from "@/components/Faqs/Faqs";
 
 export default async function Home() {
   const getProperty = await getProperties({ limit: 5 });
   return (
-    <div>
+    <div className=" space-y-[50px]">
       <section className="heroSlider relative h-[500px] overflow-hidden rounded-[20px] bg-HomeHeroBg bg-cover bg-center bg-no-repeat p-5 lg:p-8">
         <div className="left-1/2 absolute top-0 h-[200px] w-full -translate-x-1/2 bg-gradient-to-b from-[rgba(22,22,22,0.80)] to-[rgba(22,22,22,0.00)] z-[1]" />
         <div className="absolute left-1/2 bottom-0 h-[350px] w-full -translate-x-1/2  bg-[linear-gradient(0deg,_rgba(22,22,22,0)_0%,_rgba(22,22,22,0.7)_51.5%,_rgba(22,22,22,0)_100%)] z-[1]" />
@@ -29,7 +31,11 @@ export default async function Home() {
       </section>
       <section className=" space-y-8">
         <h2 className="">Explore Properties</h2>
-        <PropertyGrid className="grid justify-between grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" />
+        <PropertySlider className="mt-10" />
+      </section>
+      <section className="w-full lg:w-[80%] m-auto space-y-8">
+        <h2>FAQs</h2>
+        <Faqs />
       </section>
     </div>
   );

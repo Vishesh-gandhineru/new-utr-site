@@ -3,6 +3,7 @@ import "./globals.css";
 import localFont from "next/font/local";
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import GlobalLayout from "@/components/GlobalLayout";
+import TanStackProvider from "@/components/TanStackQueryProvider";
 
 
 
@@ -15,6 +16,10 @@ const Switzer = localFont({
     {
       path: "/fonts/Switzer-Medium.woff2",
       weight: "500",
+    },
+    {
+      path: "/fonts/Switzer-Semibold.woff2",
+      weight: "600",
     },
     {
       path: "/fonts/Switzer-Bold.woff2",
@@ -59,7 +64,9 @@ export default function RootLayout({
       <body className={`${Span.variable} ${Switzer.variable} bg-white`}>
         <AntdRegistry>
         <GlobalLayout>
+          <TanStackProvider>
           {children}
+          </TanStackProvider>
         </GlobalLayout>
         </AntdRegistry>
       </body>

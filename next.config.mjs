@@ -20,6 +20,10 @@ const nextConfig = {
         hostname: 'placehold.co',
         port: '',
       },
+      {
+        hostname: 'utr-images.s3.ap-south-1.amazonaws.com',
+        port: '',
+      },
     ],
   },
 };

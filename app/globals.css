@@ -212,3 +212,15 @@ body {
 .footerAccordion .ant-collapse-content-box {
   padding: 0px 0 20px 0px  !important;
 }
+
+.PriceSliderFilter .ant-slider-rail {
+  background-color: rgba(147, 142, 125, 0.4) !important;
+}
+.PriceSliderFilter .ant-slider-handle::after {
+  background-color : #938E7D !important;
+  box-shadow: 0 0 0 2px #938E7D !important; 
+
+}
+.PriceSliderFilter .ant-slider-track {
+  background-color: #938E7D !important;
+}

@@ -68,7 +68,7 @@ const MobileAccordionMenu = () => {
       defaultActiveKey={["0"]}
       items={items}
       accordion
-      expandIconPosition={"right"}
+      expandIconPosition={"end"}
       expandIcon={({ isActive }) => (
         <div className="grid h-6 w-6 place-content-center rounded-full border border-white">
           <Arrow
