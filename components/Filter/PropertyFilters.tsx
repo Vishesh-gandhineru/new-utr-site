@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Form, InputNumber, Slider, Select, Button } from 'antd';
+import { Form, InputNumber, Slider, Select, Button, Checkbox } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { Star } from 'lucide-react';
 
@@ -31,6 +31,18 @@ const FilerLableCss = "text-base font-[600] text-gray-800";
 const RatingCss = "flex items-center gap-1 border border-gray py-1 px-2 rounded-full text-sm";
 
 const PropertyFilterComponent = () => {
+
+ 
+  const TravelerExperienceOptions = [
+    { label: 'Sustainable travel', value: 'Sustainable-travel' },
+    { label: 'Sea travel', value: 'Sea-travel' },
+    { label: 'Wellness travel', value: 'Wellness travel' },
+    { label: 'Cultural immersion', value: 'Cultural immersion' },
+    { label: 'Cultural travel', value: 'Cultural travel' },
+    
+  ];
+
+
   return (
   <div className='space-y-8'>
   {/* map */}
@@ -65,17 +77,27 @@ const PropertyFilterComponent = () => {
           <Option value="7">Bar</Option>
           <Option value="8">Room Service</Option>
         </Select>
-
       </div>
     </div>
-    <div>
+    <div className=' space-y-3'>
       <h4 className={FilerLableCss}>Traveler Experience</h4>
+      <Checkbox.Group options={TravelerExperienceOptions} className='!flex !justify-normal !flex-col !gap-3 ExperienceCheckboxFilter !capitalize'  />
     </div>
-    <div>
-      <h4 className={FilerLableCss}>Landmark & Activities</h4>
+    <div className=' space-y-3'>
+      <h4 className={FilerLableCss}>Freebies</h4>
+      <Checkbox.Group options={TravelerExperienceOptions} className='!flex !justify-normal !flex-col !gap-3 ExperienceCheckboxFilter !capitalize'  />
     </div>
-    <div>
+    <div className=' space-y-3'>
       <h4 className={FilerLableCss}>Meals</h4>
+      <Checkbox.Group options={TravelerExperienceOptions} className='!flex !justify-normal !flex-col !gap-3 ExperienceCheckboxFilter !capitalize'  />
+    </div>
+    <div className=' space-y-3'>
+      <h4 className={FilerLableCss}>Landmark & Activities</h4>
+      <Checkbox.Group options={TravelerExperienceOptions} className='!flex !justify-normal !flex-col !gap-3 ExperienceCheckboxFilter !capitalize'  />
+    </div>
+    <div className='flex justify-between sticky bottom-3'>
+      <Button type="primary" className=' !rounded-full !bg-green'>Search</Button>
+      <Button  className=' !rounded-full !bg-transparent !border-gray !text-gray '>Clear All</Button>
     </div>
   </div>
   );

@@ -224,3 +224,21 @@ body {
 .PriceSliderFilter .ant-slider-track {
   background-color: #938E7D !important;
 }
+
+.ExperienceCheckboxFilter .ant-checkbox .ant-checkbox-inner {
+  border-radius: 100% !important;
+  width: 25px !important;
+  height: 25px !important;
+  background-color: transparent !important;
+  border-color: #938E7D !important;
+}
+.ExperienceCheckboxFilter .ant-checkbox-inner:after {
+  top: 45% !important;
+  left: 50% !important;
+  transform:  translate(-50%, -50%) rotate(45deg) scale(1) !important;
+}
+
+.ExperienceCheckboxFilter .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #938E7D !important;
+  border-color: #938E7D !important;
+}
