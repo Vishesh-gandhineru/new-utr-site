@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import GlobalLayout from "@/components/GlobalLayout";
 import TanStackProvider from "@/components/TanStackQueryProvider";
+import {StyleProvider} from "@ant-design/cssinjs"
 
 
 

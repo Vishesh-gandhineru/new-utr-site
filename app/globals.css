@@ -242,3 +242,18 @@ body {
   background-color: #938E7D !important;
   border-color: #938E7D !important;
 }
+
+
+.PropertyAnchor .ant-anchor-link-title {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  color:#938E7D !important;
+}
+.PropertyAnchor .ant-anchor {
+  justify-content: space-between !important;
+}
+.PropertyAnchor .ant-anchor-link-title:hover {
+  color:#202020 !important;
+  text-decoration: underline !important;
+  scale: 1.1 !important;
+}
