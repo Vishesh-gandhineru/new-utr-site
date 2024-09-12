@@ -67,3 +67,10 @@ export type LocationType = {
   PropertyAddress: string;
   PropertySlug : string;
 }
+
+export type GuestCounts =  {
+  adults: number;
+  children: number;
+  infants: number;
+  pets: number;
+}

@@ -1,75 +1,37 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { Popover, Button } from 'antd';
-import { PlusOutlined, MinusOutlined, UserOutlined } from '@ant-design/icons';
-import { cn } from '@/lib/utils';
+import React from "react";
+import { Popover, Button } from "antd";
+import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
+import { cn } from "@/lib/utils";
+import { GuestCounts } from "@/types/types";
+import useGuestCount from "@/context/useGuestCount";
 
-interface GuestCounts {
-  adults: number;
-  children: number;
-  infants: number;
-  pets: number;
-}
 
-const defaultGuestCounts: GuestCounts = {
-  adults: 0,
-  children: 0,
-  infants: 0,
-  pets: 0,
-};
 
 type GuestSelectionPopoverProps = {
   className?: string;
-  guestCounts: GuestCounts;
-  setGuestCounts: React.Dispatch<React.SetStateAction<GuestCounts>>;
 };
 
 const GuestSelectionPopover: React.FC<GuestSelectionPopoverProps> = ({
   className,
-  guestCounts,
-  setGuestCounts
 }) => {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-    if (typeof window !== 'undefined') {
-      const storedCounts = sessionStorage.getItem('guestCounts');
-      if (storedCounts) {
-        setGuestCounts(JSON.parse(storedCounts));
-      }
-    }
-  }, [setGuestCounts]);
-
-  useEffect(() => {
-    if (isMounted) {
-      sessionStorage.setItem('guestCounts', JSON.stringify(guestCounts));
-    }
-  }, [guestCounts, isMounted]);
+  const { guestCounts, addGuest } = useGuestCount(); // zustand hook
 
   const handleIncrement = (type: keyof GuestCounts) => {
-    setGuestCounts((prev) => {
-      const newCounts = { ...prev, [type]: prev[type] + 1 };
-      sessionStorage.setItem('guestCounts', JSON.stringify(newCounts));
-      return newCounts;
-    });
+    addGuest({ ...guestCounts, [type]: guestCounts[type] + 1 });
   };
 
   const handleDecrement = (type: keyof GuestCounts) => {
-    setGuestCounts((prev) => {
-      const newCounts = { ...prev, [type]: Math.max(0, prev[type] - 1) };
-      sessionStorage.setItem('guestCounts', JSON.stringify(newCounts));
-      return newCounts;
-    });
+    addGuest({ ...guestCounts, [type]: Math.max(0, guestCounts[type] - 1) });
   };
 
   const getGuestSummary = (): string => {
     const pluralRules: Record<keyof GuestCounts, (count: number) => string> = {
-      adults: (count) => count === 1 ? 'Adult' : 'Adults',
-      children: (count) => count === 1 ? 'Child' : 'Children',
-      infants: (count) => count === 1 ? 'Infant' : 'Infants',
-      pets: (count) => count === 1 ? 'Pet' : 'Pets',
+      adults: (count) => (count === 1 ? "Adult" : "Adults"),
+      children: (count) => (count === 1 ? "Child" : "Children"),
+      infants: (count) => (count === 1 ? "Infant" : "Infants"),
+      pets: (count) => (count === 1 ? "Pet" : "Pets"),
     };
 
     const summary = Object.entries(guestCounts)
@@ -79,13 +41,13 @@ const GuestSelectionPopover: React.FC<GuestSelectionPopoverProps> = ({
         return `${count} ${label}`;
       });
 
-    return summary.length > 0 ? summary.join(', ') : 'Add Guest';
+    return summary.length > 0 ? summary.join(", ") : "Add Guest";
   };
 
   const content = (
     <div className="w-full">
       {(Object.keys(guestCounts) as Array<keyof GuestCounts>).map((type) => (
-        <div key={type} className="flex justify-between items-center mb-4">
+        <div key={type} className="mb-4 flex items-center justify-between">
           <span className="capitalize">{type}</span>
           <div className="flex items-center">
             <Button
@@ -112,12 +74,23 @@ const GuestSelectionPopover: React.FC<GuestSelectionPopoverProps> = ({
       title="Select Guests"
       trigger="click"
       placement="bottom"
-      className='!w-full'
+      className="!w-full"
     >
-      <Button className={cn("w-full !flex !justify-start !items-center !text-[18px] !font-Switzer  px-2 py-2 border border-gray-300 rounded-md !text-start !p-0", className , [
-        guestCounts.adults > 0 || guestCounts.children > 0 || guestCounts.infants > 0 || guestCounts.pets > 0 ? '!text-black' : '!text-gray'
-      ])}>
-        <span>{isMounted ? getGuestSummary() : 'Add Guest'}</span>
+      <Button
+        className={cn(
+          "border-gray-300 !flex w-full !items-center !justify-start rounded-md border !p-0 px-2 py-2 !text-start !font-Switzer !text-[18px]",
+          className,
+          [
+            guestCounts.adults > 0 ||
+            guestCounts.children > 0 ||
+            guestCounts.infants > 0 ||
+            guestCounts.pets > 0
+              ? "!text-black"
+              : "!text-gray",
+          ],
+        )}
+      >
+        <span>{guestCounts ? getGuestSummary() : "Add Guest"}</span>
       </Button>
     </Popover>
   );

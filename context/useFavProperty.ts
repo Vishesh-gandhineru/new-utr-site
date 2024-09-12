@@ -3,6 +3,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
+
 // Define the shape of a favorite item
 interface FavoriteItem {
 propertyId: string | number

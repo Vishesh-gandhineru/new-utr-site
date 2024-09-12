@@ -4,25 +4,16 @@ import PropertyBookingDatePicker from "./PropertyBookingDatePicker";
 import GuestSelectionPopover from "./GuestSelectionPopover";
 import { GetPropertyquote, checkAvailability } from "@/serverAction/BookingAPI";
 import { LoadingOutlined } from "@ant-design/icons";
-import { Spin } from "antd";
+import { CollapseProps, Spin } from "antd";
+import useGuestCount from "@/context/useGuestCount";
+import { useQuery } from "@tanstack/react-query";
+import getSymbolFromCurrency from "currency-symbol-map";
+import { Popover, Divider } from "antd";
+import { Collapse } from "antd";
 
 type DateRange = {
   checkin: string | null;
   checkout: string | null;
-};
-
-type GuestCounts = {
-  adults: number;
-  children: number;
-  infants: number;
-  pets: number;
-};
-
-const defaultGuestCounts: GuestCounts = {
-  adults: 0,
-  children: 0,
-  infants: 0,
-  pets: 0,
 };
 
 type BookingFormProps = {
@@ -35,12 +26,8 @@ const BookingForm = ({ propertyId, PropertySlug }: BookingFormProps) => {
     checkin: null,
     checkout: null,
   });
-  const [guestCounts, setGuestCounts] =
-    useState<GuestCounts>(defaultGuestCounts);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<boolean>(false);
-  const [QuotationData, setQuotationData] = useState<Record<string, any> | null>(null);
+
+  const { guestCounts } = useGuestCount(); // zustand hook
 
   const AvailabilityBody = {
     propertyId: propertyId, //required
@@ -52,73 +39,198 @@ const BookingForm = ({ propertyId, PropertySlug }: BookingFormProps) => {
     babies: guestCounts.infants, //optional or send 0 format = int
     pets: guestCounts.pets, //optional or send 0 format = int
     currency: "INR",
-    rateplanId: null
+    rateplanId: null,
   };
 
-  const handleCheckAvailability = async () => {
-    setLoading(true);
-    try {
-      const response = await GetPropertyquote(AvailabilityBody);
-      setLoading(false);
-      console.log(response);
-      if (response.statusCode === 409) {
-        return setError("No availability found");
-      }
-      if (response.available){
-        setSuccess(true);
-      }
-      return setQuotationData(response);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const {
+    data: QuotationData,
+    isLoading,
+    refetch,
+    error,
+  } = useQuery({
+    queryKey: [AvailabilityBody],
+    queryFn: () => GetPropertyquote(AvailabilityBody),
+    enabled: false,
+  });
 
+  const success = QuotationData?.available || false;
+  const errorMessage = QuotationData?.message;
+  const breakdown = QuotationData?.breakdown || [];
+  console.log(QuotationData);
 
-  
   return (
-    <div className="rounded-2xl border-[1px] border-green p-8 space-y-4">
+    <div className="space-y-4 rounded-2xl border-[1px] border-green p-8">
       <div>
-        <h2 className="font-Switzer font-semibold">₹1000 <span className="text-[10px] font-Switzer font-normal text-light_green">/Night + Taxs</span></h2>
+        <h2 className="font-Switzer font-semibold">
+          ₹1000{" "}
+          <span className="font-Switzer text-[10px] font-normal text-light_green">
+            /Night + Taxs
+          </span>
+        </h2>
       </div>
       <PropertyBookingDatePicker
-        className="w-full !border-gray !bg-transparent !shadow-none !text-[18px] !px-5 !py-3"
+        className="w-full !border-gray !bg-transparent !px-5 !py-3 !text-[18px] !shadow-none"
         dateRange={dateRange}
         setDateRange={setDateRange}
         PropertySlug={PropertySlug}
       />
-      <GuestSelectionPopover
-        className="w-full !border-gray !px-5 !py-5 !bg-transparent !shadow-none"
-        guestCounts={guestCounts}
-        setGuestCounts={setGuestCounts}
-      />
-      <div className="border border-gray p-5 rounded-lg flex  justify-between items-center">
-        <div className=" space-y-2">
-        <p className="filterLabel">Apply & save $6,000</p>
-        <h3 className="filterOptions">DIWALIFIREWORKS</h3>
+      <GuestSelectionPopover className="w-full !border-gray !bg-transparent !px-5 !py-5 !shadow-none" />
+      <div className="flex h-[72px] items-center justify-between rounded-lg border border-gray px-5 py-3">
+        <div className="space-y-1">
+          <p className="filterLabel">Apply & save $6,000</p>
+          <h3 className="filterOptions">DIWALIFIREWORKS</h3>
         </div>
-        <button className="text-sm underline font-Switzer font-medium">Apply</button>
+        <button className="font-Switzer text-sm font-medium underline">
+          Apply
+        </button>
       </div>
-      <button className="text-[12px] underline text-light_green w-full text-center">See more coupons & offers</button>
+      <button className="w-full text-center text-[12px] text-light_green underline">
+        See more coupons & offers
+      </button>
+      {success && (
+        <div className="flex items-center justify-between">
+          <div className="flex flex-col">
+            <p className="text-gray">Total</p>
+            <Popover
+              content={<PriceBreakDown breakdown={breakdown} currency={QuotationData?.currency}/>}
+              trigger={"click"}
+              className="!p-0"
+            >
+              <button className="!m-0 text-center text-sm underline">
+                See Breakdown
+              </button>
+            </Popover>
+          </div>
+          <div>
+            <p className="text-right font-medium">
+              {getSymbolFromCurrency(QuotationData?.currency)}{" "}
+              {QuotationData?.breakdown?.total}
+            </p>
+            <p className="text-sm text-gray">Inclusive of all Taxes</p>
+          </div>
+        </div>
+      )}
+
       <button
-        className="relative w-full rounded-[20px] bg-green  text-xl text-white font-Switzer font-semibold capitalize tracking-wider p-6"
-        onClick={handleCheckAvailability}
+        className="relative w-full rounded-[20px] bg-green p-6 font-Switzer text-xl font-semibold capitalize tracking-wider text-white"
+        onClick={() => {
+          if (!success) refetch();
+          if (success) {
+            console.log("Reserve");
+          }
+        }}
       >
-        Check Availability{" "}
-        {loading && (
+        {success ? "Reserve" : "Check Availability"}
+        {isLoading && (
           <Spin
             className="!absolute right-20"
             indicator={<LoadingOutlined spin />}
           />
         )}
       </button>
-      {error && <p className="text-sm text-red-500 text-center">{error}</p>}
-      {success && <p className="text-sm text-green-500 text-center">Property is available</p>}
-      {QuotationData && 
-      <div>
-      <h2>Total : {QuotationData.breakdown.total}</h2>
-      </div>}
+      {!success && (
+        <p className="text-center text-sm text-red-500">{errorMessage}</p>
+      )}
     </div>
   );
 };
 
 export default BookingForm;
+
+function PriceBreakDown({breakdown, currency} : {breakdown: any , currency: string}) {
+
+  const {adr , charges , dailyRates , rentOnly , requiredSecurityDeposit , taxes , total } = breakdown;
+  const {total : totalCharges , itemized : chargesItem} = charges;
+  const {total : totalTaxes , itemized : taxesItem} = taxes;
+
+  const CurrencySymbol = getSymbolFromCurrency(currency);
+
+  interface ChargeItem {
+    name: string;
+    value: number;
+    chargeName: string;
+  }
+
+  interface TaxItem {
+    name: string;
+    value: number;
+    taxName: string;
+  }
+
+
+  const ChargesItem: CollapseProps["items"] = [
+    {
+      key: "1",
+      label:(<div className="flex justify-between items-center">Charges <span>{CurrencySymbol} {totalCharges}</span></div>),
+      children: (
+        <div>
+          <h3 className="mb-2 text-lg font-semibold">Charges</h3>
+          {chargesItem.map((charge : ChargeItem, index : number) => (
+            <div key={index} className="mb-1 flex justify-between">
+              <span>{charge.chargeName}</span>
+              <span>{CurrencySymbol} {charge.value.toFixed(2)}</span>
+            </div>
+          ))}
+          <div className="mt-2 flex justify-between font-semibold">
+            <span>Total Charges</span>
+            <span>{CurrencySymbol} {totalCharges}</span>
+          </div>
+        </div>
+      ),
+    },
+    {
+      key: "2",
+      label: (<div className="flex justify-between items-center">Taxes <span>{CurrencySymbol} {totalTaxes}</span></div>),
+      children: (
+        <div>
+          <h3 className="mb-2 text-lg font-semibold">Taxes</h3>
+          {taxesItem.map((tax : TaxItem, index : number) => (
+            <div key={index} className="mb-1 flex justify-between">
+              <span>{tax.name}</span>
+              <span>{CurrencySymbol} {tax.value.toFixed(2)}</span>
+            </div>
+          ))}
+          <div className="mt-2 flex justify-between font-semibold">
+            <span>Total Taxes</span>
+            <span>{CurrencySymbol} {totalTaxes}</span>
+          </div>
+        </div>
+      ),
+    }
+  ];
+
+  
+
+  return (
+    <div className="w-[400px] overflow-hidden rounded-lg">
+      <div className="p-3">
+        <h2 className="text-2xl font-bold">Price Breakdown</h2>
+        <Divider className="!my-3" />
+        {/* Rent */}
+        <div className="mb-0">
+          <h3 className="mb-1 text-lg font-semibold">Rent</h3>
+          <div className="flex justify-between">
+            <span>Rent Only</span>
+            <span>{CurrencySymbol} {rentOnly}</span>
+          </div>
+          <div className="text-gray-600 mt-1 text-sm flex justify-between items-center">
+            Average Daily Rate <span>
+            {CurrencySymbol} {adr}
+              </span> 
+          </div>
+        </div>
+        <Divider className="!my-3" />
+        {/* Charges & taxs */}
+        <div>
+          <Collapse items={ChargesItem}  />
+        </div>    
+        <Divider className="my-4" />
+        {/* Total */}
+        <div className="flex items-center justify-between text-xl font-bold">
+          <span>Grand Total</span>
+          <span>{CurrencySymbol} {total.toFixed(2)}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
