@@ -45,7 +45,7 @@ const GuestSelectionPopover: React.FC<GuestSelectionPopoverProps> = ({
   };
 
   const content = (
-    <div className="w-full">
+    <div className="w-[250px]">
       {(Object.keys(guestCounts) as Array<keyof GuestCounts>).map((type) => (
         <div key={type} className="mb-4 flex items-center justify-between">
           <span className="capitalize">{type}</span>

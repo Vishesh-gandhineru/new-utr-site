@@ -87,9 +87,9 @@ const ShareButton: React.FC<ShareButtonProps> = ({ url, title }) => {
 
   return (
     <Dropdown menu={{ items, onClick: handleMenuClick }} trigger={['hover']}>
-      <button className='flex  items-center gap-2 text-gray' onClick={handleShare}>
-        <span className=" w-fit p-2 border border-gray rounded-full grid place-content-center">
-          <Share2 className=" stroke-gray w-5 h-5" />
+      <button className='flex  items-center gap-2 text-gray text-sm' onClick={handleShare}>
+        <span className=" w-fit p-1 border border-gray rounded-full grid place-content-center">
+          <Share2 className=" stroke-gray w-4 h-4" />
           </span>
         Share
       </button>

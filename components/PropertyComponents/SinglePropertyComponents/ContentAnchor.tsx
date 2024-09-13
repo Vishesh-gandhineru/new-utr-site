@@ -10,7 +10,7 @@ const ContentAnchor = () => {
         <Anchor
         direction="horizontal"
         className="!border !border-y border-gray !border-x-0 !py-3 before:!border-none PropertyAnchor bg-white"
-        targetOffset={50}
+        targetOffset={60}
         items={[
           {
             key: 'About',

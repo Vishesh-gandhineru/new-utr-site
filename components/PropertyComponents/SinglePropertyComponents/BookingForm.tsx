@@ -69,12 +69,15 @@ const BookingForm = ({ propertyId, PropertySlug }: BookingFormProps) => {
         </h2>
       </div>
       <PropertyBookingDatePicker
-        className="w-full !border-gray !bg-transparent !px-5 !py-3 !text-[18px] !shadow-none"
+        className="w-full !border-gray !bg-transparent !px-5 !py-3 !text-[18px] !shadow-none h-[72px]"
         dateRange={dateRange}
         setDateRange={setDateRange}
         PropertySlug={PropertySlug}
       />
-      <GuestSelectionPopover className="w-full !border-gray !bg-transparent !px-5 !py-5 !shadow-none" />
+      <div className="border rounded-lg h-[72px] border-gray !px-5 !py-3 ">
+      <p className="filterLabel">Guests</p>
+      <GuestSelectionPopover className="w-full !border-gray !bg-transparent !px-0 !py-0 !shadow-none !border-none" />
+      </div>
       <div className="flex h-[72px] items-center justify-between rounded-lg border border-gray px-5 py-3">
         <div className="space-y-1">
           <p className="filterLabel">Apply & save $6,000</p>

@@ -257,3 +257,15 @@ body {
   text-decoration: underline !important;
   scale: 1.1 !important;
 }
+
+.PropertyAnchor .ant-anchor-ink:first-child {
+  background-color: #203E3C !important;
+}
+@media screen and (max-width: 768px) {
+  .PropertyAnchor .ant-anchor {
+    justify-content: space-between !important;
+    gap: 20px !important;
+  }
+
+  
+}
