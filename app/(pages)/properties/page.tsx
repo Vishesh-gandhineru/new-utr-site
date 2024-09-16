@@ -1,6 +1,5 @@
 import PropertyFilterComponent from "@/components/Filter/PropertyFilters";
 import PropertyGrid from "@/components/PropertyComponents/PropertyGrid";
-import PropertyMap from "@/components/PropertyComponents/PropertyMap";
 import PropertySlider from "@/components/PropertyComponents/PropertySlider";
 import { getProperties } from "@/serverAction/PropertiesAPI";
 
@@ -22,10 +21,10 @@ const PropertyListingPage = async () => {
         </section>
         <section className="flex flex-col lg:flex-row">
           <div className="mb-6 w-full border border-gray rounded-xl p-4 lg:mb-0 lg:w-1/4">
-            <PropertyFilterComponent />
+            <PropertyFilterComponent /> 
           </div>
           <div className="w-full lg:w-full lg:pl-6">
-            <PropertyGrid className="grid justify-between gap-5 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3" PostPerPage={5} />
+            <PropertyGrid className="grid justify-between gap-5 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3" initialProperties={getProperty} />
           </div>
         </section>
           <section className=" space-y-8">

@@ -99,7 +99,7 @@ export default function PropertyCard({ property }: VillaCardProps) {
           </div>
           <div className="flex items-center justify-center gap-2 font-Switzer text-sm text-[#657C48]">
             <Star className="h-4 w-4" />
-            {baseAmount}
+            5.0
           </div>
         </div>
         {/* guest , price and compare button */}
