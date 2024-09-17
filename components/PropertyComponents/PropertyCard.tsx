@@ -12,6 +12,7 @@ import { Carousel } from "antd";
 import SaveToFav from "./SaveToFav";
 import WeatherButton from "./WeatherButton";
 import Link from "next/link";
+import { MotionDiv } from "@/utils/FramerMotion";
 
 interface VillaCardProps {
   property: any;
@@ -43,7 +44,7 @@ export default function PropertyCard({ property }: VillaCardProps) {
   }
 
   return (
-    <div className="w-full">
+    <MotionDiv layout className="w-full">
       {/* image section  */}
       <div className="relative">
         <Carousel
@@ -127,6 +128,6 @@ export default function PropertyCard({ property }: VillaCardProps) {
           </Tooltip>
         </div>
       </div>
-    </div>
+    </MotionDiv>
   );
 }

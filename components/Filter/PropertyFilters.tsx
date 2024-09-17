@@ -45,6 +45,7 @@ const PropertyFilterComponent: React.FC = () => {
 
   const clearAllFilters = useCallback(() => {
     form.resetFields();
+    setRangeRate(initialValues.rate)
     router.push('/properties', { scroll: false });
   }, [form, router]);
 

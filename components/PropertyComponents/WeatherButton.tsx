@@ -28,8 +28,7 @@ const WeatherButton = () => {
   }
   return (
     <Tooltip title={!isWeatherOpen && "Weather"} mouseEnterDelay={0.3}>
-            <motion.div 
-            layout
+            <motion.div             
             variants={variant}
             initial="initial"
             animate={isWeatherOpen ? "open" : "initial"}
