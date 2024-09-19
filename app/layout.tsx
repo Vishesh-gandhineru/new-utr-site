@@ -41,7 +41,7 @@ const Switzer = localFont({
 const Span = localFont({
   src: [
     {
-      path: "/fonts/Span-Regular.otf",
+      path: "/fonts/Span.otf",
       weight: "400",
     },
     

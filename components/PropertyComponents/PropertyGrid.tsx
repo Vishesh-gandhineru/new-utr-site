@@ -59,6 +59,7 @@ const PropertyGrid = ({ className, initialProperties }: PropertyGridProps) => {
   const propertiesNotFound = data?.total_count === 0;
 
   console.log('isFetching', isFetching);
+  console.log('data', data);
 
   return (
     <div className={className}>

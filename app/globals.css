@@ -77,7 +77,7 @@
     @apply text-base md:text-lg;
   }
   h1 {
-    @apply text-2xl sm:text-3xl md:text-4xl xl:text-6xl xl:leading-[70px]  font-bold  tracking-wide font-Switzer;
+    @apply text-[32px] leading-9 sm:text-3xl md:text-4xl xl:text-6xl xl:leading-[70px]  font-bold  tracking-wide font-Switzer;
   }
   h2 {
     @apply text-[26px] sm:text-2xl md:text-3xl font-normal  tracking-wide font-Span text-black;
