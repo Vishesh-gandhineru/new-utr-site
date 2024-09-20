@@ -16,24 +16,25 @@ import { CountryCode } from "@/utils/countryCodeWithImage";
 type PhoneInputProps = {
   setPhoneNumber: (value: string) => void;
   setCountryCode: (value: string) => void;
-  isDisable : boolean
+  isDisable: boolean;
 };
 
-const PhoneInput = ({setPhoneNumber , setCountryCode , isDisable} : PhoneInputProps) => {
+const PhoneInput = ({
+  setPhoneNumber,
+  setCountryCode,
+  isDisable,
+}: PhoneInputProps) => {
   const [open, setOpen] = useState<boolean | undefined>(false);
   const [value, setValue] = useState<SetStateAction<string | undefined>>("+91");
-
-  
-
 
   const frameworks = CountryCode;
 
   const content = (
-    <div className="h-full">
+    <div className="h-full w-[350px]">
       <Command>
         <CommandList>
           <ScrollArea className="h-72">
-            <CommandInput placeholder="Search country..." />
+            <CommandInput placeholder="Search country..." className="font-Switzer" />
             <CommandEmpty>No country found.</CommandEmpty>
             <CommandGroup>
               {frameworks.map((framework) => (
@@ -41,12 +42,14 @@ const PhoneInput = ({setPhoneNumber , setCountryCode , isDisable} : PhoneInputPr
                   key={framework.code}
                   value={framework.name}
                   onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : framework.dial_code || "");
+                    setValue(
+                      currentValue === value ? "" : framework.dial_code || "",
+                    );
                     setCountryCode(framework.dial_code || "");
                     setOpen(false);
                   }}
                 >
-                  <div className="flex justify-between items-center w-full px-2">
+                  <div className="flex w-full items-center justify-between px-2 font-Switzer">
                     <div>
                       {framework.emoji} {framework.name}
                     </div>
@@ -63,8 +66,15 @@ const PhoneInput = ({setPhoneNumber , setCountryCode , isDisable} : PhoneInputPr
 
   return (
     <div className="flex max-w-full">
-      <Popover content={content} trigger="click" open={open} arrow={false} onOpenChange={setOpen}>
-        <button className="bg-white border-[1px] rounded-none border-[#d9d9d9] border-r-0 rounded-l-[5px]  px-3">
+      <Popover
+      placement="bottomLeft"
+        content={content}
+        trigger="click"
+        open={open}
+        arrow={false}
+        onOpenChange={setOpen}
+      >
+        <button className="rounded-none w-14 text-2xl rounded-l-[5px] border-[1px] border-r-0 border-[#d9d9d9] bg-white px-3">
           {" "}
           {value
             ? frameworks.find((framework) => framework.dial_code === value)
@@ -72,13 +82,21 @@ const PhoneInput = ({setPhoneNumber , setCountryCode , isDisable} : PhoneInputPr
             : "🌍"}
         </button>
       </Popover>
-     
-      <Input 
-      disabled={isDisable}
-      count={{
+
+      <Input
+        disabled={isDisable}
+        count={{
           show: true,
           max: 10,
-        }} placeholder="Phone Number" type="number" maxLength={10} className=" !rounded-none !rounded-r-[5px]" onChange={(e)=> {setPhoneNumber(e.target.value)}} />
+        }}
+        placeholder="Enter your mobile number"
+        type="number"
+        maxLength={10}
+        className="!rounded-none !rounded-r-[5px] !h-[50px]  "
+        onChange={(e) => {
+          setPhoneNumber(e.target.value);
+        }}
+      />
     </div>
   );
 };

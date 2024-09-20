@@ -85,9 +85,22 @@
   h3 {
     @apply text-lg sm:text-xl md:text-xl font-medium tracking-wide font-Switzer;
   }
+  h4 {
+    @apply  font-Switzer;
+  }
+  h5 {
+    @apply font-Switzer;
+  }
+  h6 {
+    @apply  font-Switzer;
+  }
   p {
     @apply leading-relaxed font-Switzer;
   }
+  span {
+    @apply leading-relaxed font-Switzer;
+  }
+ 
 
 }
 
@@ -97,6 +110,11 @@
     @apply max-w-[1875px] w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 ;
   }
 }
+
+body {
+  font-family: var(--font-Switzer);
+}
+
 .filterLabel {
   color: #202020;
 font-size: 14px;
@@ -130,9 +148,7 @@ letter-spacing: 0.28px;
   
 }
 
-body {
-  font-family: var(--font-Switzer);
-}
+
 
 
 .draggable {

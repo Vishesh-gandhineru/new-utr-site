@@ -44,9 +44,11 @@ const LoginForm = () => {
 
   return (
     <div>
-      <div className='flex flex-col gap-2'>
+      <div className=''>        
         <PhoneInput setPhoneNumber={setPhoneNumber} setCountryCode={setCountryCode} isDisable={isFormSubmitted}/>
-        <Button onClick={handleLogin} disabled={showLogin}>Login</Button>
+        <span className='text-[10px] text-gray block mt-2'>By signing up, you agree to our <u className='text-black'>Terms & Conditions</u> and <u className='text-black'>Privacy Policy</u> </span>
+      
+        <Button className='!w-full !bg-green !text-white !h-[60px] !text-lg mt-5 !rounded-[10px] disabled:opacity-70 ' onClick={handleLogin} disabled={showLogin}>Send OTP</Button>
       </div>
       <div className='mt-5'>
       {isLoading && <LoaderIcon className='animate-spin' />} 
