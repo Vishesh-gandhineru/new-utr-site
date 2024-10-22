@@ -38,7 +38,8 @@ const PropertyBookingDatePicker = ({className, dateRange , setDateRange , Proper
 
     const fetchBookedDates = async () => {
       try {
-        const response = await getPropertyCalendar(PropertySlug);        
+        const response = await getPropertyCalendar(PropertySlug);    
+        console.log(response)    
         // Process the response to get booked dates
         const bookedDatesArray = Object.entries(response)
           .filter(([date, data]: [string, any]) => data.quantity === 0)
@@ -51,7 +52,9 @@ const PropertyBookingDatePicker = ({className, dateRange , setDateRange , Proper
     }
 
     fetchBookedDates();
+    console.log("fetch is called")
   }, [PropertySlug, setDateRange]);
+
 
   const handleDateChange = (dates: [Dayjs | null, Dayjs | null] | null) => {
     

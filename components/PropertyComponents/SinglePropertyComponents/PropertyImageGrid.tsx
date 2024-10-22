@@ -1,33 +1,46 @@
-import React from 'react'
-import Image from 'next/image'
+import React from "react";
+import Image from "next/image";
 type PropertyImageGridProps = {
-    images: Array<{ displayPriority: number; s3_url: string; url : string ; type: string; _id: string }>;
-}
+  images: Array<{
+    displayPriority: number;
+    s3_url: string;
+    url: string;
+    type: string;
+    _id: string;
+  }>;
+};
 
-const PropertyImageGrid = ({images} : PropertyImageGridProps) => {
-
+const PropertyImageGrid = ({ images }: PropertyImageGridProps) => {
   return (
-    <div className='grid lg:grid-cols-3 gap-8'>
-      <div className=' lg:col-span-2 w-full h-[300px] lg:h-[400px] relative'>
-   
-        <Image src={images[0].url} alt='' fill sizes='100%'
-        className=' object-cover object-center absolute rounded-2xl' />        
-       
+    <div className="grid gap-8 lg:grid-cols-3">
+      <div className="relative h-[300px] w-full lg:col-span-2 lg:h-[400px]">
+        <Image
+          src={images[0].s3_url}
+          alt=""
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          quality={75}
+          className="absolute rounded-2xl object-cover object-center"
+        />
       </div>
-      <div className='hidden lg:col-span-1 lg:grid grid-cols-2 grid-rows-3 gap-6'>
-       {images.slice(1).map((image , index) => {
+      <div className="hidden grid-cols-2 grid-rows-3 justify-between gap-6 lg:col-span-1 lg:grid">
+        {images.slice(0, 6).map((image, index) => {
           return (
-            <div className='w-full h-full relative' key={index}>   
-            <Image src={image.url} alt='' fill sizes='100%'
-            className=' object-cover object-center absolute rounded-2xl' />
-              
-           
-          </div>
-          )
-       }) }
+            <div className="relative h-full w-full" key={index}>
+              <Image
+                src={image.s3_url}
+                alt=""
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                quality={75}
+                className="absolute rounded-2xl object-cover object-center"
+              />
+            </div>
+          );
+        })}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PropertyImageGrid
+export default PropertyImageGrid;

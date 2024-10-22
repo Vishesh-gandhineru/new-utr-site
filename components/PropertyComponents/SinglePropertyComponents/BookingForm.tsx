@@ -53,10 +53,10 @@ const BookingForm = ({ propertyId, PropertySlug }: BookingFormProps) => {
     enabled: false,
   });
 
-  const success = QuotationData?.available || false;
-  const errorMessage = QuotationData?.message;
+  const success = QuotationData?.success || false;
+  const errorMessage = QuotationData?.errors;
   const breakdown = QuotationData?.breakdown || [];
-  console.log(QuotationData);
+
 
   return (
     <div className="space-y-4 rounded-2xl border-[1px] border-green p-8">

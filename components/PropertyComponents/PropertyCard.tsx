@@ -54,13 +54,14 @@ export default function PropertyCard({ property }: VillaCardProps) {
           {images.map((image: any, index: number) => {
               
             return (
-              <div key={index} className="relative !block h-[200px] w-full">
+              <div key={index} className="relative !block h-[200px] w-[320px]">
                 <Image
-                  src={image.url || "https://placehold.co/600x400"}
+                  src={image.s3_url || "https://placehold.co/600x400"}
                   alt={name}
-                  fill
+                  width={320}
+                  height={200}
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  quality={100}
+                  quality={75}
                   className="object-cover object-center"
                   placeholder="blur"
                   blurDataURL="/blurImage.webp"
