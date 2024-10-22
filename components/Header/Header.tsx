@@ -28,7 +28,7 @@ const MainMenu = () => {
         </div>
         <nav className="hidden md:flex space-x-8 text-sm md:items-center capitalize text-black">
           {menuItems.map((item) => {
-           return  <Link href={item.href} className='hover:text-orange' >{item.name}</Link>             
+           return  <Link href={item.href}  key={item.name} className='hover:text-orange' >{item.name}</Link>             
           })}         
         <div className="hidden md:block">
           <LoginButton />
